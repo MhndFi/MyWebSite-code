@@ -33,3 +33,13 @@ export interface Certificate {
   credentialId?: string;
   description?: string;
 }
+
+export interface Writeup {
+  id: string;
+  title: string;
+  date: string;
+  platform: string;
+  description: string;
+  url: string;
+  tags: string[];
+}

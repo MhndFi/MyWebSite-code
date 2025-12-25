@@ -18,17 +18,17 @@ const About: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* Bio Text */}
         <div className="flex flex-col gap-4">
-          <div className="bg-panel-dark border border-[#283928] p-6 rounded relative group hover:border-primary/50 transition-colors">
-            <div className="absolute top-0 right-0 p-2 opacity-50 group-hover:opacity-100 transition-opacity">
-              <Fingerprint className="text-primary w-5 h-5" />
+          <div className="bg-panel-dark border border-[#283928] p-8 rounded-lg relative group hover:border-primary/50 transition-colors">
+            <div className="absolute top-0 right-0 p-3 opacity-50 group-hover:opacity-100 transition-opacity">
+              <Fingerprint className="text-primary w-6 h-6" />
             </div>
-            <p className="text-[#d1d5d1] text-base leading-relaxed mb-4">
-              <span className="text-primary font-mono text-sm block mb-2">
+            <p className="text-[#d1d5d1] text-lg leading-relaxed mb-6">
+              <span className="text-primary font-mono text-lg font-bold tracking-wide block mb-4">
                 [INFO] Accessing user bio...
               </span>
               Based in Jerusalem. Specializing in web application security, vulnerability assessment, and bug bounty hunting on HackerOne and Bugcrowd.
             </p>
-            <p className="text-[#d1d5d1] text-base leading-relaxed">
+            <p className="text-[#d1d5d1] text-lg leading-relaxed">
               Obsessed with reconnaissance tools, exploitation techniques, and uncovering the hidden vectors that others miss. Always hunting for that critical vulnerability.
             </p>
           </div>

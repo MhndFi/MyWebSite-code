@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SectionHeader from './SectionHeader';
-import { Mail, Github, Globe, Twitter, Power, Share2 } from 'lucide-react';
+import { Mail, Github, Globe, Twitter, Power, Share2, Copy, Check } from 'lucide-react';
 import { SocialLink } from '../types';
 
 const Connect: React.FC = () => {
+  const [emailCopied, setEmailCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('mhndfi@mohannadfiron.com');
+    setEmailCopied(true);
+    setTimeout(() => setEmailCopied(false), 2000);
+  };
+
   return (
     <section className="w-full max-w-[960px] px-4 py-12 mb-20" id="connect">
       <SectionHeader title="./connect.sh --secure" />
@@ -21,15 +29,27 @@ const Connect: React.FC = () => {
               Found an interesting target? Have a collaboration opportunity? 
               Initialize a connection below.
             </p>
-            <a
-              href="mailto:mhndfi@mohannadfiron.com"
-              className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors group"
-            >
-              <Mail className="group-hover:animate-ping w-5 h-5" />
-              <span className="font-mono text-lg underline decoration-1 underline-offset-4">
-                mhndfi@mohannadfiron.com
-              </span>
-            </a>
+            
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <a
+                href="mailto:mhndfi@mohannadfiron.com"
+                className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors group"
+              >
+                <Mail className="group-hover:animate-ping w-5 h-5" />
+                <span className="font-mono text-lg underline decoration-1 underline-offset-4">
+                  mhndfi@mohannadfiron.com
+                </span>
+              </a>
+
+              <button
+                onClick={handleCopyEmail}
+                className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono border border-[#283928] bg-[#1c2c1c] text-[#9db99d] hover:text-primary hover:border-primary rounded transition-all focus:outline-none"
+                title="Copy Email Address"
+              >
+                {emailCopied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                <span>{emailCopied ? 'COPIED' : 'COPY'}</span>
+              </button>
+            </div>
           </div>
           
           <div className="grid grid-cols-2 gap-4">
