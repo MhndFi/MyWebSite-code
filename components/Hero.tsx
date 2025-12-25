@@ -133,7 +133,7 @@ const Hero: React.FC = () => {
                {/* Post-boot prompt - Optional, kept from previous version if desired, or removed for cleaner look. keeping it simple. */}
                {bootComplete && (
                  <div className="text-[#567556] w-full text-center opacity-50">
-                   > SYSTEM READY
+                   &gt; SYSTEM READY
                  </div>
                )}
             </div>
