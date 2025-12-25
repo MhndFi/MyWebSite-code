@@ -21,11 +21,11 @@ const Hero: React.FC = () => {
               &gt; INITIALIZING UPLINK...
             </p>
             <h1 className="text-white text-5xl md:text-7xl font-black leading-tight tracking-tighter drop-shadow-[0_0_10px_rgba(19,236,19,0.5)]">
-              SYSTEM ONLINE
+              MOHANNAD FIRON
             </h1>
             <h2 className="text-[#9db99d] text-lg md:text-xl font-normal max-w-2xl mx-auto mt-4">
-              Full Stack Developer | Security Researcher |{' '}
-              <span className="text-secondary">Cyberpunk Enthusiast</span>
+              Bug Bounty Hunter | Security Researcher |{' '}
+              <span className="text-secondary">Penetration Tester</span>
             </h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 z-10 mt-6">

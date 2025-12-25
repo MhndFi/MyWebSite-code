@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionHeader from './SectionHeader';
-import { Mail, Github, Linkedin, Twitter, Power, Share2 } from 'lucide-react';
+import { Mail, Github, Globe, Twitter, Power, Share2 } from 'lucide-react';
 import { SocialLink } from '../types';
 
 const Connect: React.FC = () => {
@@ -18,23 +18,25 @@ const Connect: React.FC = () => {
           <div className="flex flex-col justify-center">
             <h3 className="text-white text-2xl font-bold mb-2">Establish Uplink</h3>
             <p className="text-[#9db99d] mb-6">
-              Ready to collaborate on secure systems or discuss the future of the
-              decentralized web? Initialize a connection below.
+              Found an interesting target? Have a collaboration opportunity? 
+              Initialize a connection below.
             </p>
             <a
-              href="mailto:user@root.net"
+              href="mailto:mhndfi@mohannadfiron.com"
               className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors group"
             >
               <Mail className="group-hover:animate-ping w-5 h-5" />
               <span className="font-mono text-lg underline decoration-1 underline-offset-4">
-                user@root.net
+                mhndfi@mohannadfiron.com
               </span>
             </a>
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <a
-              href="#"
+              href="https://github.com/MhndFi"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
             >
               <Github className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current" />
@@ -43,16 +45,20 @@ const Connect: React.FC = () => {
               </span>
             </a>
             <a
-              href="#"
+              href="https://www.mohannadfiron.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
             >
-              <Linkedin className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current" />
+              <Globe className="w-8 h-8 text-white group-hover:text-primary mb-3" />
               <span className="text-sm font-medium text-white group-hover:text-primary">
-                LinkedIn
+                Website
               </span>
             </a>
             <a
-              href="#"
+              href="https://twitter.com/Mohannad_Firon"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
             >
               <Twitter className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current" />

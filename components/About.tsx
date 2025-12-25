@@ -4,10 +4,10 @@ import SectionHeader from './SectionHeader';
 import { Skill } from '../types';
 
 const skills: Skill[] = [
-  { name: 'JavaScript / TypeScript', level: 98, color: 'primary' },
-  { name: 'React / Next.js', level: 94, color: 'primary' },
-  { name: 'Python / Django', level: 85, color: 'secondary', warning: true },
-  { name: 'Cybersecurity / Pen-testing', level: 90, color: 'primary' },
+  { name: 'Web Application Security', level: 98, color: 'primary' },
+  { name: 'Reconnaissance Automation', level: 95, color: 'primary' },
+  { name: 'Python / Bash Scripting', level: 90, color: 'primary' },
+  { name: 'Exploit Development', level: 85, color: 'secondary', warning: true },
 ];
 
 const About: React.FC = () => {
@@ -26,14 +26,10 @@ const About: React.FC = () => {
               <span className="text-primary font-mono text-sm block mb-2">
                 [INFO] Accessing user bio...
               </span>
-              Subject is a highly skilled developer specializing in offensive
-              security and frontend architecture. Experience with distributed
-              systems and cryptographic protocols. Currently operating from the
-              net, building tools for the next generation of the web.
+              Based in Jerusalem. Specializing in web application security, vulnerability assessment, and bug bounty hunting on HackerOne and Bugcrowd.
             </p>
             <p className="text-[#d1d5d1] text-base leading-relaxed">
-              Obsessed with clean code, dark interfaces, and optimizing for
-              performance. Always ready to deploy to production on Fridays.
+              Obsessed with reconnaissance tools, exploitation techniques, and uncovering the hidden vectors that others miss. Always hunting for that critical vulnerability.
             </p>
           </div>
           {/* Stats / Status */}

@@ -6,6 +6,7 @@ export interface Project {
   description: string;
   tags: string[];
   imageUrl: string;
+  repoUrl: string;
   isPrivate?: boolean;
   isWarning?: boolean;
 }
@@ -22,4 +23,13 @@ export interface SocialLink {
   icon: LucideIcon;
   url: string;
   isTerminate?: boolean;
+}
+
+export interface Certificate {
+  id: string;
+  title: string;
+  issuer: string;
+  date: string;
+  credentialId?: string;
+  description?: string;
 }

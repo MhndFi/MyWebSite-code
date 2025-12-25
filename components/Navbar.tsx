@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             <Terminal className="text-primary animate-pulse w-6 h-6" />
-            <h2 className="text-primary text-lg font-bold tracking-tight">user@root:~</h2>
+            <h2 className="text-primary text-lg font-bold tracking-tight">mhndfi@root:~</h2>
           </div>
           
           {/* Desktop Nav */}
