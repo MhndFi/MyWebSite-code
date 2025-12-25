@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hacker Profile - System Root</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13ec13",
+              secondary: "#ff3333",
+              "background-light": "#f6f8f6",
+              "background-dark": "#0a0f0a",
+              "panel-dark": "#111811",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "monospace"],
+            },
+            backgroundImage: {
+              "grid-pattern":
+                "linear-gradient(to right, #13ec131a 1px, transparent 1px), linear-gradient(to bottom, #13ec131a 1px, transparent 1px)",
+            },
+            animation: {
+              blink: "blink 1s step-end infinite",
+            },
+            keyframes: {
+              blink: {
+                "50%": { opacity: "0" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom scrollbar for webkit */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #111811;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #283928;
+        border: 1px solid #13ec13;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #13ec13;
+      }
+
+      /* Scanline effect */
+      .scanlines {
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0) 50%,
+          rgba(0, 0, 0, 0.2) 50%,
+          rgba(0, 0, 0, 0.2)
+        );
+        background-size: 100% 4px;
+        position: fixed;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50;
+      }
+
+      .blinking-cursor::after {
+        content: "|";
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+  <body class="bg-background-dark text-white font-display overflow-x-hidden selection:bg-primary selection:text-background-dark">
+    <div id="root"></div>
+  </body>
+</html>
