@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
   // Boot sequence state
@@ -98,7 +99,7 @@ const Hero: React.FC = () => {
   }, [bootComplete]);
 
   return (
-    <section className="w-full max-w-[960px] px-4 py-20 md:py-32 flex flex-col items-center justify-center min-h-[80vh]">
+    <section className="w-full max-w-[960px] px-4 py-20 md:py-32 flex flex-col items-center justify-center min-h-[90vh] relative">
       <div className="relative w-full overflow-hidden rounded-lg border border-[#283928] bg-panel-dark p-1 shadow-2xl shadow-primary/5">
         <div className="flex items-center gap-2 bg-[#283928] px-4 py-2 text-xs text-[#9db99d]">
           <div className="h-3 w-3 rounded-full bg-red-500"></div>
@@ -130,7 +131,7 @@ const Hero: React.FC = () => {
                  </div>
                )}
                
-               {/* Post-boot prompt - Optional, kept from previous version if desired, or removed for cleaner look. keeping it simple. */}
+               {/* Post-boot prompt */}
                {bootComplete && (
                  <div className="text-[#567556] w-full text-center opacity-50">
                    &gt; SYSTEM READY
@@ -172,17 +173,17 @@ const Hero: React.FC = () => {
               <div className={`flex flex-col sm:flex-row gap-4 z-10 mt-8 justify-center transition-opacity duration-1000 ${showButtons ? 'opacity-100' : 'opacity-0'}`}>
                 <a
                   href="#work"
-                  className="group relative flex items-center justify-center overflow-hidden rounded border border-primary bg-primary/10 px-8 py-3 transition-all hover:bg-primary hover:text-background-dark"
+                  className="group relative flex items-center justify-center overflow-hidden rounded border border-primary bg-primary/10 px-8 py-3 transition-all hover:bg-primary hover:text-background-dark hover:shadow-[0_0_20px_rgba(19,236,19,0.4)]"
                 >
-                  <span className="relative text-primary text-sm font-bold tracking-wider group-hover:text-background-dark">
+                  <span className="relative text-primary text-sm font-bold tracking-wider group-hover:text-background-dark z-10">
                     INITIATE SEQUENCE
                   </span>
                 </a>
                 <a
                   href="#connect"
-                  className="group relative flex items-center justify-center overflow-hidden rounded border border-secondary bg-secondary/10 px-8 py-3 transition-all hover:bg-secondary hover:text-white"
+                  className="group relative flex items-center justify-center overflow-hidden rounded border border-secondary bg-secondary/10 px-8 py-3 transition-all hover:bg-secondary hover:text-white hover:shadow-[0_0_20px_rgba(255,51,51,0.4)]"
                 >
-                  <span className="relative text-secondary text-sm font-bold tracking-wider group-hover:text-white">
+                  <span className="relative text-secondary text-sm font-bold tracking-wider group-hover:text-white z-10">
                     EMERGENCY CONTACT
                   </span>
                 </a>
@@ -191,6 +192,13 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Scroll Indicator */}
+      {showButtons && (
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-primary opacity-75">
+          <ChevronDown className="w-8 h-8" />
+        </div>
+      )}
     </section>
   );
 };

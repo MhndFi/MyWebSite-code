@@ -32,7 +32,7 @@ const Projects: React.FC = () => {
         {projectData.map((project) => (
           <div
             key={project.id}
-            className="group relative bg-panel-dark border border-[#283928] hover:border-primary hover:shadow-[0_0_15px_rgba(19,236,19,0.2)] transition-all duration-300 rounded overflow-hidden flex flex-col md:flex-row"
+            className="group relative bg-gradient-to-br from-panel-dark to-[#1c2c1c] border border-[#283928] hover:border-primary hover:shadow-[0_0_15px_rgba(19,236,19,0.2)] transition-all duration-300 rounded overflow-hidden flex flex-col md:flex-row"
           >
             {/* Image Section */}
             <div
@@ -53,7 +53,7 @@ const Projects: React.FC = () => {
                         {project.tags.map((tag) => (
                         <span
                             key={tag}
-                            className="px-2 py-0.5 bg-[#1c2c1c] text-primary border border-[#283928] text-xs font-mono rounded"
+                            className="px-2 py-0.5 bg-[#1c2c1c] text-primary border border-[#283928] text-xs font-mono rounded group-hover:border-primary/30 transition-colors"
                         >
                             {tag}
                         </span>
@@ -64,13 +64,13 @@ const Projects: React.FC = () => {
                     href={project.repoUrl}
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-[#9db99d] hover:text-white transition-colors"
+                    className="text-secondary-light hover:text-white transition-colors transform group-hover:scale-110 duration-300"
                 >
                     <Github className="w-6 h-6" />
                 </a>
               </div>
               
-              <p className="text-[#9db99d] text-sm mb-6 leading-relaxed">
+              <p className="text-secondary-light text-sm mb-6 leading-relaxed">
                 {project.description}
               </p>
 
@@ -84,8 +84,8 @@ const Projects: React.FC = () => {
                 </div>
                 <button
                     onClick={() => handleCopy(project.repoUrl)}
-                    className="text-[#9db99d] hover:text-primary transition-colors focus:outline-none"
-                    title="Copy to clipboard"
+                    className="text-secondary-light hover:text-primary transition-colors focus:outline-none"
+                    title="Copy git clone command"
                 >
                     {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                 </button>

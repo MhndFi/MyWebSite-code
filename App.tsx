@@ -11,14 +11,14 @@ import Footer from './components/Footer';
 const App: React.FC = () => {
   return (
     <div className="relative min-h-screen">
-      {/* Scanline Overlay */}
-      <div className="scanlines"></div>
+      {/* Scanline Overlay - Opacity managed via CSS for mobile, but set base here */}
+      <div className="scanlines opacity-50"></div>
       
       {/* Navigation */}
       <Navbar />
 
       {/* Main Content */}
-      <main className="relative pt-16 flex flex-col items-center w-full min-h-screen bg-grid-pattern bg-[length:40px_40px]">
+      <main className="relative pt-16 flex flex-col items-center w-full min-h-screen bg-grid-pattern bg-[length:40px_40px] gap-12 md:gap-24">
         <Hero />
         <About />
         <Projects />

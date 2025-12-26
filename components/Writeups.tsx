@@ -27,7 +27,7 @@ const Writeups: React.FC = () => {
             href={writeup.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group bg-panel-dark border border-[#283928] p-6 rounded hover:border-primary hover:bg-[#1c2c1c] transition-all duration-300 flex flex-col relative overflow-hidden"
+            className="group bg-gradient-to-br from-panel-dark to-[#1c2c1c] border border-[#283928] p-6 rounded hover:border-primary transition-all duration-300 flex flex-col relative overflow-hidden"
           >
             {/* Decorative Icon Background */}
             <div className="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity rotate-12">
@@ -37,19 +37,19 @@ const Writeups: React.FC = () => {
             <div className="flex justify-between items-start mb-4 relative z-10">
               <div className="flex flex-wrap gap-2">
                  {writeup.tags.map(tag => (
-                   <span key={tag} className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-[#283928] bg-black/30 text-[#9db99d] group-hover:text-primary group-hover:border-primary/30 transition-colors">
+                   <span key={tag} className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-[#283928] bg-black/30 text-secondary-light group-hover:text-primary group-hover:border-primary/30 transition-colors">
                      {tag}
                    </span>
                  ))}
               </div>
-              <ExternalLink className="w-4 h-4 text-[#567556] group-hover:text-primary transition-colors" />
+              <ExternalLink className="w-4 h-4 text-secondary-light group-hover:text-primary transition-colors group-hover:scale-110" />
             </div>
 
             <h3 className="text-white text-lg font-bold mb-2 group-hover:text-primary transition-colors relative z-10">
               {writeup.title}
             </h3>
             
-            <p className="text-[#9db99d] text-sm mb-6 leading-relaxed relative z-10 flex-grow">
+            <p className="text-secondary-light text-sm mb-6 leading-loose line-clamp-4 relative z-10 flex-grow">
               {writeup.description}
             </p>
 

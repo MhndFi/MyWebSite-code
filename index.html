@@ -20,6 +20,7 @@
             colors: {
               primary: "#13ec13",
               secondary: "#ff3333",
+              "secondary-light": "#b3d1b3",
               "background-light": "#f6f8f6",
               "background-dark": "#0a0f0a",
               "panel-dark": "#111811",
@@ -76,6 +77,19 @@
         right: 0;
         bottom: 0;
         z-index: 50;
+      }
+
+      @media (max-width: 768px) {
+        .scanlines {
+          opacity: 0.3;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .animate-blink, .animate-pulse, .animate-bounce, .transition-all, .transition-colors, .transition-transform {
+          animation: none !important;
+          transition: none !important;
+        }
       }
 
       .blinking-cursor::after {

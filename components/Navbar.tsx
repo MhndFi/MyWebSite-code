@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-[#9db99d] hover:text-primary transition-colors text-sm font-medium"
+                className="text-secondary-light hover:text-primary transition-colors text-sm font-medium"
               >
                 {link.name}
               </a>
@@ -48,14 +48,18 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Mobile Nav */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-background-dark border-b border-[#283928] px-4 py-4 flex flex-col gap-4">
+      <div 
+        className={`md:hidden bg-background-dark border-b border-[#283928] overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+         <div className="px-4 py-4 flex flex-col gap-4">
            {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-[#9db99d] hover:text-primary transition-colors text-sm font-medium block"
+                className="text-secondary-light hover:text-primary transition-colors text-sm font-medium block"
               >
                 {link.name}
               </a>
@@ -63,8 +67,8 @@ const Navbar: React.FC = () => {
              <button className="text-secondary text-xs border border-secondary px-2 py-1 rounded hover:bg-secondary hover:text-white cursor-pointer transition-colors w-fit">
               EXIT SESSION
             </button>
-        </div>
-      )}
+         </div>
+      </div>
     </nav>
   );
 };

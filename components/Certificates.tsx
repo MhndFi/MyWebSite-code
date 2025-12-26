@@ -44,13 +44,13 @@ const Certificates: React.FC = () => {
         {certificates.map((cert) => (
           <div
             key={cert.id}
-            className="group bg-panel-dark border border-[#283928] p-6 rounded hover:border-primary hover:shadow-[0_0_15px_rgba(19,236,19,0.15)] transition-all duration-300 relative overflow-hidden"
+            className="group bg-gradient-to-br from-panel-dark to-[#1c2c1c] border border-[#283928] p-6 rounded hover:border-primary hover:shadow-[0_0_15px_rgba(19,236,19,0.15)] transition-all duration-300 relative overflow-hidden"
           >
              {/* Decorative Corner */}
              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/10 to-transparent -mr-8 -mt-8 rounded-bl-full transition-opacity opacity-50 group-hover:opacity-100"></div>
 
             <div className="flex items-start justify-between mb-4 relative z-10">
-                <div className="p-2 bg-[#1c2c1c] rounded border border-[#283928] group-hover:border-primary/50 transition-colors">
+                <div className="p-2 bg-[#1c2c1c] rounded border border-[#283928] group-hover:border-primary/50 transition-colors group-hover:scale-110 duration-300">
                     <Award className="w-6 h-6 text-primary" />
                 </div>
                 <div className="text-right">
@@ -64,7 +64,7 @@ const Certificates: React.FC = () => {
             </h3>
 
             {cert.description && (
-                <p className="text-[#9db99d] text-sm mb-4 leading-relaxed relative z-10">
+                <p className="text-secondary-light text-sm mb-4 leading-relaxed relative z-10">
                     {cert.description}
                 </p>
             )}

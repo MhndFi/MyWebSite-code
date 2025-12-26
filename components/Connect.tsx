@@ -25,7 +25,7 @@ const Connect: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
           <div className="flex flex-col justify-center">
             <h3 className="text-white text-2xl font-bold mb-2">Establish Uplink</h3>
-            <p className="text-[#9db99d] mb-6">
+            <p className="text-secondary-light mb-6">
               Found an interesting target? Have a collaboration opportunity? 
               Initialize a connection below.
             </p>
@@ -43,7 +43,7 @@ const Connect: React.FC = () => {
 
               <button
                 onClick={handleCopyEmail}
-                className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono border border-[#283928] bg-[#1c2c1c] text-[#9db99d] hover:text-primary hover:border-primary rounded transition-all focus:outline-none"
+                className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono border border-[#283928] bg-[#1c2c1c] text-secondary-light hover:text-primary hover:border-primary rounded transition-all focus:outline-none"
                 title="Copy Email Address"
               >
                 {emailCopied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
@@ -59,7 +59,7 @@ const Connect: React.FC = () => {
               rel="noopener noreferrer"
               className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
             >
-              <Github className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current" />
+              <Github className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-white group-hover:text-primary">
                 GitHub
               </span>
@@ -70,7 +70,7 @@ const Connect: React.FC = () => {
               rel="noopener noreferrer"
               className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
             >
-              <Globe className="w-8 h-8 text-white group-hover:text-primary mb-3" />
+              <Globe className="w-8 h-8 text-white group-hover:text-primary mb-3 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-white group-hover:text-primary">
                 Website
               </span>
@@ -81,7 +81,7 @@ const Connect: React.FC = () => {
               rel="noopener noreferrer"
               className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
             >
-              <Twitter className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current" />
+              <Twitter className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-white group-hover:text-primary">
                 X / Twitter
               </span>
@@ -91,7 +91,7 @@ const Connect: React.FC = () => {
               href="#"
               className="group flex flex-col items-center justify-center p-6 bg-[#2c1c1c] border border-[#283928] hover:border-secondary hover:bg-secondary/10 rounded transition-all duration-300"
             >
-              <Power className="text-white group-hover:text-secondary mb-3 w-8 h-8" />
+              <Power className="text-white group-hover:text-secondary mb-3 w-8 h-8 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-white group-hover:text-secondary">
                 Terminate
               </span>
