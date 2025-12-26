@@ -4,11 +4,20 @@ import { Mail, Github, Globe, Twitter, Power, Share2, Copy, Check, Lock } from '
 
 const Connect: React.FC = () => {
   const [emailCopied, setEmailCopied] = useState(false);
+  const [siteCopied, setSiteCopied] = useState(false);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('mhndfi@mohannadfiron.com');
     setEmailCopied(true);
     setTimeout(() => setEmailCopied(false), 2000);
+  };
+
+  const handleCopySite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText('https://www.mohannadfiron.com');
+    setSiteCopied(true);
+    setTimeout(() => setSiteCopied(false), 2000);
   };
 
   return (
@@ -64,20 +73,33 @@ const Connect: React.FC = () => {
             >
               <Github className="w-8 h-8 text-[#567556] group-hover/btn:text-primary group-hover/btn:scale-110 mb-3 transition-all" />
               <span className="text-[10px] font-mono text-[#567556] group-hover/btn:text-primary uppercase tracking-widest">
-                node_github
+                Github
               </span>
             </a>
-            <a
-              href="https://www.mohannadfiron.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/btn flex flex-col items-center justify-center p-6 border border-[#283928] bg-black/20 hover:border-primary hover:bg-primary/5 rounded transition-all duration-300"
-            >
-              <Globe className="w-8 h-8 text-[#567556] group-hover/btn:text-primary group-hover/btn:scale-110 mb-3 transition-all" />
-              <span className="text-[10px] font-mono text-[#567556] group-hover/btn:text-primary uppercase tracking-widest">
-                node_web
-              </span>
-            </a>
+
+            <div className="group/btn relative flex flex-col items-center justify-center p-6 border border-[#283928] bg-black/20 hover:border-primary hover:bg-primary/5 rounded transition-all duration-300 cursor-pointer">
+              <a 
+                 href="https://www.mohannadfiron.com"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="absolute inset-0 z-0"
+                 aria-label="Visit MySite"
+              ></a>
+              <div className="relative z-10 flex flex-col items-center pointer-events-none">
+                <Globe className="w-8 h-8 text-[#567556] group-hover/btn:text-primary group-hover/btn:scale-110 mb-3 transition-all" />
+                <span className="text-[10px] font-mono text-[#567556] group-hover/btn:text-primary uppercase tracking-widest">
+                  MySite
+                </span>
+              </div>
+              <button
+                onClick={handleCopySite}
+                className="absolute top-2 right-2 z-20 p-1.5 rounded bg-black/40 text-[#567556] hover:text-primary hover:bg-black/60 border border-transparent hover:border-primary/30 transition-all opacity-0 group-hover/btn:opacity-100"
+                title="Copy URL"
+              >
+                {siteCopied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+              </button>
+            </div>
+
             <a
               href="https://twitter.com/Mohannad_Firon"
               target="_blank"
@@ -86,9 +108,10 @@ const Connect: React.FC = () => {
             >
               <Twitter className="w-8 h-8 text-[#567556] group-hover/btn:text-primary group-hover/btn:scale-110 mb-3 transition-all" />
               <span className="text-[10px] font-mono text-[#567556] group-hover/btn:text-primary uppercase tracking-widest">
-                node_x
+                Twitter
               </span>
             </a>
+            
             <button
               className="group/btn flex flex-col items-center justify-center p-6 border border-[#283928] bg-[#2c1c1c]/10 hover:border-secondary hover:bg-secondary/5 rounded transition-all duration-300"
             >
