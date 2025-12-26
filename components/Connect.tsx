@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import SectionHeader from './SectionHeader';
-import { Mail, Github, Globe, Twitter, Power, Share2, Copy, Check } from 'lucide-react';
-import { SocialLink } from '../types';
+import { Mail, Github, Globe, Twitter, Power, Share2, Copy, Check, Lock } from 'lucide-react';
 
 const Connect: React.FC = () => {
   const [emailCopied, setEmailCopied] = useState(false);
@@ -13,42 +12,46 @@ const Connect: React.FC = () => {
   };
 
   return (
-    <section className="w-full max-w-[960px] px-4 py-12 mb-20" id="connect">
-      <SectionHeader title="./connect.sh --secure" />
+    <section className="w-full py-4 mb-12" id="connect">
+      <SectionHeader title="./establish_uplink --secure" subtitle="Protocol: SSH-RSA 4096" />
       
-      <div className="bg-panel-dark border border-[#283928] p-8 rounded-lg relative overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
-          <Share2 className="w-32 h-32 text-primary" />
+      <div className="bg-[#1a251a]/20 border border-[#283928] p-8 rounded relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity">
+          <Lock className="w-40 h-40 text-primary" />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
           <div className="flex flex-col justify-center">
-            <h3 className="text-white text-2xl font-bold mb-2">Establish Uplink</h3>
-            <p className="text-secondary-light mb-6">
-              Found an interesting target? Have a collaboration opportunity? 
-              Initialize a connection below.
+            <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-2">
+              <Share2 className="w-5 h-5 text-primary" />
+              Secure Communication
+            </h3>
+            <p className="text-secondary-light/70 mb-8 font-mono text-sm leading-relaxed">
+              Connection encrypted via end-to-end PGP protocols. Leave a message for the administrator or follow the social nodes listed in the routing table.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <a
-                href="mailto:mhndfi@mohannadfiron.com"
-                className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors group"
-              >
-                <Mail className="group-hover:animate-ping w-5 h-5" />
-                <span className="font-mono text-lg underline decoration-1 underline-offset-4">
-                  mhndfi@mohannadfiron.com
-                </span>
-              </a>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <a
+                  href="mailto:mhndfi@mohannadfiron.com"
+                  className="flex items-center gap-3 text-primary hover:text-white transition-all group/mail"
+                >
+                  <div className="p-2 rounded bg-primary/10 group-hover/mail:bg-primary/20">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <span className="font-mono text-sm tracking-tight border-b border-primary/20 pb-1">
+                    mhndfi@mohannadfiron.com
+                  </span>
+                </a>
 
-              <button
-                onClick={handleCopyEmail}
-                className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono border border-[#283928] bg-[#1c2c1c] text-secondary-light hover:text-primary hover:border-primary rounded transition-all focus:outline-none"
-                title="Copy Email Address"
-              >
-                {emailCopied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                <span>{emailCopied ? 'COPIED' : 'COPY'}</span>
-              </button>
+                <button
+                  onClick={handleCopyEmail}
+                  className="px-3 py-1 text-[10px] font-mono border border-[#283928] bg-black/40 text-[#567556] hover:text-primary hover:border-primary rounded transition-all"
+                  title="Copy Node Address"
+                >
+                  {emailCopied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
+              </div>
             </div>
           </div>
           
@@ -57,45 +60,43 @@ const Connect: React.FC = () => {
               href="https://github.com/MhndFi"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
+              className="group/btn flex flex-col items-center justify-center p-6 border border-[#283928] bg-black/20 hover:border-primary hover:bg-primary/5 rounded transition-all duration-300"
             >
-              <Github className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium text-white group-hover:text-primary">
-                GitHub
+              <Github className="w-8 h-8 text-[#567556] group-hover/btn:text-primary group-hover/btn:scale-110 mb-3 transition-all" />
+              <span className="text-[10px] font-mono text-[#567556] group-hover/btn:text-primary uppercase tracking-widest">
+                node_github
               </span>
             </a>
             <a
               href="https://www.mohannadfiron.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
+              className="group/btn flex flex-col items-center justify-center p-6 border border-[#283928] bg-black/20 hover:border-primary hover:bg-primary/5 rounded transition-all duration-300"
             >
-              <Globe className="w-8 h-8 text-white group-hover:text-primary mb-3 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium text-white group-hover:text-primary">
-                Website
+              <Globe className="w-8 h-8 text-[#567556] group-hover/btn:text-primary group-hover/btn:scale-110 mb-3 transition-all" />
+              <span className="text-[10px] font-mono text-[#567556] group-hover/btn:text-primary uppercase tracking-widest">
+                node_web
               </span>
             </a>
             <a
               href="https://twitter.com/Mohannad_Firon"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center justify-center p-6 bg-[#1c2c1c] border border-[#283928] hover:border-primary hover:bg-primary/10 rounded transition-all duration-300"
+              className="group/btn flex flex-col items-center justify-center p-6 border border-[#283928] bg-black/20 hover:border-primary hover:bg-primary/5 rounded transition-all duration-300"
             >
-              <Twitter className="w-8 h-8 text-white group-hover:text-primary mb-3 fill-current group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium text-white group-hover:text-primary">
-                X / Twitter
+              <Twitter className="w-8 h-8 text-[#567556] group-hover/btn:text-primary group-hover/btn:scale-110 mb-3 transition-all" />
+              <span className="text-[10px] font-mono text-[#567556] group-hover/btn:text-primary uppercase tracking-widest">
+                node_x
               </span>
             </a>
-            {/* Red Accent Button */}
-            <a
-              href="#"
-              className="group flex flex-col items-center justify-center p-6 bg-[#2c1c1c] border border-[#283928] hover:border-secondary hover:bg-secondary/10 rounded transition-all duration-300"
+            <button
+              className="group/btn flex flex-col items-center justify-center p-6 border border-[#283928] bg-[#2c1c1c]/10 hover:border-secondary hover:bg-secondary/5 rounded transition-all duration-300"
             >
-              <Power className="text-white group-hover:text-secondary mb-3 w-8 h-8 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium text-white group-hover:text-secondary">
-                Terminate
+              <Power className="w-8 h-8 text-[#567556] group-hover/btn:text-secondary group-hover/btn:scale-110 mb-3 transition-all" />
+              <span className="text-[10px] font-mono text-[#567556] group-hover/btn:text-secondary uppercase tracking-widest">
+                abort_session
               </span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
