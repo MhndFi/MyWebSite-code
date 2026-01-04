@@ -11,6 +11,14 @@ const projectData: Project[] = [
     tags: ['Python', 'Docker', 'Automation', 'OSINT'],
     imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDnq7tDtnUj7lPjhcJPLlF2W7gqucq7pXzMdCEv4xP5k9-oWL3BARDxwvZAfKJdwAf9TDWTzSNxYea18_wI9oxP8q4PPPDXDnjuXIWy0ClFVG3oBKMnyWHc-xjUfBBA8Tr7fG_cM9p_vhwk7vL2QdZNc7dW8yBWa8tbrcSOABLK4epHK-V3ueT4YHjTJpCtanGdNG3jcwFzT1_rdg8nWiiFQkiUJ6hNjAxjMZuXHxx0pE4M301cN5LWZE94jYPLzzXoqw61WmZ_nw',
     repoUrl: 'https://github.com/MhndFi/MyTools'
+  },
+  {
+    id: 2,
+    title: 'PortSwigger Labs',
+    description: 'A centralized repository for custom exploitation scripts and payloads developed while mastering PortSwigger Web Security Academy. Features Python-based automation for complex vulnerability chains and solving advanced labs.',
+    tags: ['Python', 'Web Sec', 'Exploitation', 'Scripting'],
+    imageUrl: 'https://portswigger.net/content/images/logos/web-security-academy-logo-small.svg',
+    repoUrl: 'https://github.com/MhndFi/portswigger.net-web-security'
   }
 ];
 
@@ -36,7 +44,7 @@ const Projects: React.FC = () => {
           >
             {/* Visual Section */}
             <div
-              className="h-56 lg:h-auto lg:w-2/5 bg-cover bg-center border-b lg:border-b-0 lg:border-r border-[#283928] grayscale group-hover:grayscale-0 transition-all duration-700"
+              className="h-56 lg:h-auto lg:w-2/5 bg-cover bg-center border-b lg:border-b-0 lg:border-r border-[#283928] grayscale group-hover:grayscale-0 transition-all duration-700 bg-white/5"
               style={{ backgroundImage: `url("${project.imageUrl}")` }}
             >
               <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-all"></div>
