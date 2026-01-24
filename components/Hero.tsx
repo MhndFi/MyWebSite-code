@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
+import GlitchText from './GlitchText';
 
 interface HeroProps {
   onComplete?: () => void;
@@ -117,9 +118,15 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
         >
           <div className="relative inline-block mx-auto">
             <h1 className="text-white text-4xl md:text-7xl font-black leading-tight tracking-tighter drop-shadow-[0_0_15px_rgba(19,236,19,0.3)] min-h-[1.1em]">
-              {nameText}
-              {!showButtons && bootComplete && (
-                   <span className="animate-blink ml-2 inline-block w-3 h-8 md:h-12 bg-primary align-middle"></span>
+              {showButtons ? (
+                <GlitchText text={nameText} glitchOnHover={true} />
+              ) : (
+                <>
+                  {nameText}
+                  {!showButtons && bootComplete && (
+                    <span className="animate-blink ml-2 inline-block w-3 h-8 md:h-12 bg-primary align-middle"></span>
+                  )}
+                </>
               )}
             </h1>
           </div>

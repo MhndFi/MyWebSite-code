@@ -23,13 +23,13 @@ const projectData: Project[] = [
 ];
 
 const Projects: React.FC = () => {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<number | null>(null);
 
-  const handleCopy = (url: string) => {
+  const handleCopy = (url: string, id: number) => {
     const command = `git clone ${url}.git`;
     navigator.clipboard.writeText(command);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopied(id);
+    setTimeout(() => setCopied(null), 2000);
   };
 
   return (
@@ -40,14 +40,17 @@ const Projects: React.FC = () => {
         {projectData.map((project) => (
           <div
             key={project.id}
-            className="group relative bg-[#1a251a]/20 border border-[#283928] hover:border-primary/50 transition-all rounded overflow-hidden flex flex-col lg:flex-row"
+            className="group relative bg-[#1a251a]/20 border border-[#283928] hover:border-primary/50 hover:shadow-[0_0_40px_rgba(19,236,19,0.15)] transition-all duration-500 rounded overflow-hidden flex flex-col lg:flex-row hover:translate-x-1 hover:-translate-y-1"
           >
             {/* Visual Section */}
-            <div
-              className="h-56 lg:h-auto lg:w-2/5 bg-cover bg-center border-b lg:border-b-0 lg:border-r border-[#283928] grayscale group-hover:grayscale-0 transition-all duration-700 bg-white/5"
-              style={{ backgroundImage: `url("${project.imageUrl}")` }}
-            >
-              <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-all"></div>
+            <div className="h-56 lg:h-auto lg:w-2/5 bg-cover bg-center border-b lg:border-b-0 lg:border-r border-[#283928] grayscale group-hover:grayscale-0 transition-all duration-700 bg-white/5 relative overflow-hidden">
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-all duration-500"></div>
             </div>
 
             {/* Terminal Output Section */}
@@ -84,19 +87,19 @@ const Projects: React.FC = () => {
               </p>
 
               {/* Execution Command */}
-              <div className="mt-auto bg-black/60 border border-[#283928] rounded p-4 flex items-center justify-between gap-4 group-hover:border-primary/40 transition-colors">
+              <div className="mt-auto bg-black/60 border border-[#283928] rounded p-4 flex items-center justify-between gap-4 group-hover:border-primary/40 transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(19,236,19,0.1)]">
                 <div className="flex items-center gap-3 overflow-hidden">
-                    <Terminal className="w-4 h-4 text-secondary shrink-0" />
+                    <Terminal className="w-4 h-4 text-secondary shrink-0 group-hover:animate-pulse" />
                     <code className="text-xs font-mono text-secondary-light truncate">
                         $ git clone {project.repoUrl}.git
                     </code>
                 </div>
                 <button
-                    onClick={() => handleCopy(project.repoUrl)}
-                    className="p-1 text-[#567556] hover:text-primary transition-colors focus:outline-none shrink-0"
+                    onClick={() => handleCopy(project.repoUrl, project.id)}
+                    className="p-1 text-[#567556] hover:text-primary transition-all duration-300 focus:outline-none shrink-0 hover:scale-125"
                     title="Copy Git Clone Command"
                 >
-                    {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                    {copied === project.id ? <Check className="w-4 h-4 text-primary animate-pulse" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
             </div>
