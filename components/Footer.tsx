@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
       <div className="max-w-[1000px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-center">
         <div className="flex flex-col items-center md:items-start gap-1">
           <p className="text-[#567556] text-[10px] font-mono uppercase tracking-widest">
-            © 2025 MOHANNAD FIRON // SYSTEM_ROOT.V2
+            © 2026 MOHANNAD FIRON // SYSTEM_ROOT.V2
           </p>
           <p className="text-[#283928] text-[9px] font-mono">
             LOC: 31.7683° N, 35.2137° E
