@@ -102,6 +102,42 @@
           opacity: 0;
         }
       }
+
+      /* Performance optimizations */
+      .animate-blink, .animate-pulse, .animate-bounce {
+        will-change: opacity, transform;
+      }
+
+      .group:hover > * {
+        will-change: transform, opacity, filter;
+      }
+
+      /* Smooth hardware acceleration */
+      .transition-all, .transition-transform, .transition-opacity {
+        backface-visibility: hidden;
+        transform: translateZ(0);
+      }
+
+      /* Optimize image rendering */
+      img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+      }
+
+      /* Easter egg: Konami code */
+      @keyframes rainbow-glow {
+        0% { box-shadow: 0 0 20px #ff0000; }
+        16% { box-shadow: 0 0 20px #ff7f00; }
+        33% { box-shadow: 0 0 20px #ffff00; }
+        50% { box-shadow: 0 0 20px #00ff00; }
+        66% { box-shadow: 0 0 20px #0000ff; }
+        83% { box-shadow: 0 0 20px #4b0082; }
+        100% { box-shadow: 0 0 20px #9400d3; }
+      }
+
+      .konami-active {
+        animation: rainbow-glow 2s linear infinite !important;
+      }
     </style>
   <script type="importmap">
 {
