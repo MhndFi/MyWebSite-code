@@ -37,49 +37,46 @@ const certificates: Certificate[] = [
 
 const Certificates: React.FC = () => {
   return (
-    <section className="w-full max-w-[960px] px-4 py-12" id="certs">
+    <section className="w-full py-8" id="certs">
       <SectionHeader title="./view_certs.sh" subtitle={`Verified: ${certificates.length}`} />
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {certificates.map((cert) => (
           <div
             key={cert.id}
-            className="group bg-gradient-to-br from-panel-dark to-[#1c2c1c] border border-[#283928] p-6 rounded hover:border-primary hover:shadow-[0_0_15px_rgba(19,236,19,0.15)] transition-all duration-300 relative overflow-hidden"
+            className="bg-[#0d130d] border border-[#283928] p-5 rounded-lg hover:border-primary/40 transition-all duration-300 group"
           >
-             {/* Decorative Corner */}
-             <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/10 to-transparent -mr-8 -mt-8 rounded-bl-full transition-opacity opacity-50 group-hover:opacity-100"></div>
-
-            <div className="flex items-start justify-between mb-4 relative z-10">
-                <div className="p-2 bg-[#1c2c1c] rounded border border-[#283928] group-hover:border-primary/50 transition-colors group-hover:scale-110 duration-300">
-                    <Award className="w-6 h-6 text-primary" />
-                </div>
-                <div className="text-right">
-                    <span className="text-secondary text-xs font-mono block mb-1">ISSUED BY</span>
-                    <span className="text-white text-sm font-bold">{cert.issuer}</span>
-                </div>
+            <div className="flex items-start justify-between mb-3">
+              <div className="p-2 bg-black/40 rounded border border-[#283928] group-hover:border-primary/30 transition-colors">
+                <Award className="w-5 h-5 text-primary" />
+              </div>
+              <div className="text-right">
+                <span className="text-[#567556] text-[10px] font-mono uppercase block">Issued by</span>
+                <span className="text-white text-sm font-bold">{cert.issuer}</span>
+              </div>
             </div>
 
-            <h3 className="text-white text-lg font-bold mb-3 group-hover:text-primary transition-colors relative z-10">
-                {cert.title}
+            <h3 className="text-white text-base font-bold mb-2 group-hover:text-primary transition-colors">
+              {cert.title}
             </h3>
 
             {cert.description && (
-                <p className="text-secondary-light text-sm mb-4 leading-relaxed relative z-10">
-                    {cert.description}
-                </p>
+              <p className="text-secondary-light/60 text-sm mb-3 leading-relaxed">
+                {cert.description}
+              </p>
             )}
 
-            <div className="flex flex-col gap-2 mt-auto border-t border-[#283928] pt-4 relative z-10">
+            <div className="flex flex-col gap-1.5 border-t border-[#283928] pt-3 mt-auto">
+              <div className="flex items-center gap-2 text-[#567556] text-xs font-mono">
+                <Calendar className="w-3 h-3" />
+                <span>{cert.date}</span>
+              </div>
+              {cert.credentialId && (
                 <div className="flex items-center gap-2 text-[#567556] text-xs font-mono">
-                    <Calendar className="w-3 h-3" />
-                    <span>Date: {cert.date}</span>
+                  <Hash className="w-3 h-3" />
+                  <span>ID: {cert.credentialId}</span>
                 </div>
-                {cert.credentialId && (
-                     <div className="flex items-center gap-2 text-[#567556] text-xs font-mono">
-                        <Hash className="w-3 h-3" />
-                        <span>ID: {cert.credentialId}</span>
-                    </div>
-                )}
+              )}
             </div>
           </div>
         ))}
