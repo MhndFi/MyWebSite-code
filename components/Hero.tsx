@@ -38,7 +38,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
         addTimeout(() => {
           setBootComplete(true);
           onComplete?.();
-        }, 500);
+        }, 300);
         return;
       }
 
@@ -47,17 +47,17 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
       if (charIndex < currentFullLine.length) {
         setCurrentLine(currentFullLine.slice(0, charIndex + 1));
         charIndex++;
-        addTimeout(typeBoot, Math.random() * 20 + 10);
+        addTimeout(typeBoot, Math.random() * 15 + 8);
       } else {
         setTypedLines(prev => [...prev, currentFullLine]);
         setCurrentLine('');
         charIndex = 0;
         lineIndex++;
-        addTimeout(typeBoot, 80);
+        addTimeout(typeBoot, 50);
       }
     };
 
-    addTimeout(typeBoot, 500);
+    addTimeout(typeBoot, 300);
     return () => timeoutsRef.current.forEach(clearTimeout);
   }, []);
 
@@ -93,12 +93,12 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
   }, [bootComplete]);
 
   return (
-    <section className="w-full flex flex-col items-center justify-center min-h-[60vh] relative py-12 border-b border-[#283928]/30">
-      <div className="flex flex-col gap-4 text-center z-10 w-full max-w-3xl">
+    <section className="w-full flex flex-col items-center justify-center min-h-[40vh] relative py-8 border-b border-[#283928]/30">
+      <div className="flex flex-col gap-3 text-center z-10 w-full max-w-3xl">
         {/* Terminal Boot Sequence Display */}
-        <div className={`flex flex-col items-center justify-end font-mono text-xs md:text-sm tracking-widest transition-all duration-700 ${bootComplete ? 'mb-8 opacity-40' : 'mb-0 h-[100px]'}`}>
+        <div className={`flex flex-col items-center justify-end font-mono text-xs tracking-widest transition-all duration-500 ${bootComplete ? 'mb-4 opacity-30 max-h-[60px] overflow-hidden' : 'mb-0 h-[80px]'}`}>
            {typedLines.map((line, i) => (
-             <div key={i} className="text-[#567556] w-full text-center py-0.5">
+             <div key={i} className="text-[#567556] w-full text-center py-0">
                {line}
              </div>
            ))}
@@ -112,7 +112,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
 
         {/* Main Content */}
         <div 
-          className={`flex flex-col gap-6 transition-all duration-1000 ease-out transform ${
+          className={`flex flex-col gap-4 transition-all duration-1000 ease-out transform ${
             bootComplete ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
           }`}
         >
@@ -146,7 +146,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
             )}
           </h2>
 
-          <div className={`flex flex-col sm:flex-row gap-4 z-10 mt-12 justify-center transition-all duration-1000 ${showButtons ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <div className={`flex flex-col sm:flex-row gap-4 z-10 mt-8 justify-center transition-all duration-1000 ${showButtons ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <a
               href="#work"
               className="group relative flex items-center justify-center overflow-hidden rounded border border-primary/40 bg-primary/5 px-8 py-4 transition-all hover:bg-primary hover:text-background-dark hover:border-primary hover:shadow-[0_0_30px_rgba(19,236,19,0.4)]"
