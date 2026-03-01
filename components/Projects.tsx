@@ -18,7 +18,7 @@ const defaultProjects: Project[] = [
     title: 'PortSwigger Labs',
     description: 'A centralized repository for custom exploitation scripts and payloads developed while mastering PortSwigger Web Security Academy. Features Python-based automation for complex vulnerability chains and solving advanced labs.',
     tags: ['Python', 'Web Sec', 'Exploitation', 'Scripting'],
-    imageUrl: 'https://portswigger.net/content/images/logos/web-security-academy-logo-small.svg',
+    imageUrl: 'https://raw.githubusercontent.com/MhndFi/MyWebSite-code/main/images/portswigger-labs.png',
     repoUrl: 'https://github.com/MhndFi/portswigger.net-web-security'
   }
 ];
