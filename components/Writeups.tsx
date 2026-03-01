@@ -30,7 +30,13 @@ const STORAGE_KEY = 'mhndfi_writeups';
 const loadWriteups = (): Writeup[] => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
+    if (stored) {
+      const userWriteups: Writeup[] = JSON.parse(stored);
+      // Merge: keep all defaults + any user-added writeups not in defaults
+      const defaultIds = new Set(defaultWriteups.map(w => w.id));
+      const userAdded = userWriteups.filter(w => !defaultIds.has(w.id));
+      return [...userAdded, ...defaultWriteups];
+    }
   } catch {}
   return defaultWriteups;
 };
