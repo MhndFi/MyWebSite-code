@@ -6,6 +6,15 @@ import { FileText, ExternalLink, Calendar, Hash, Plus, X, Trash2 } from 'lucide-
 
 const defaultWriteups: Writeup[] = [
   {
+    id: '2',
+    title: 'How I Found 4 Vulnerabilities in 3 Days — Beginner Journey',
+    date: 'Mar 1, 2026',
+    platform: 'Bug Bounty',
+    description: 'I submitted 4 reports in my first real bug bounty hunt. The result? 2 Informative, 1 Duplicate, and 0 bounties. But the lessons were worth more than money. Full methodology, tools, and honest results.',
+    url: 'https://mhndfi.medium.com/how-i-found-4-vulnerabilities-in-3-days-beginner-journey-dcc84ecee094',
+    tags: ['Bug Bounty', 'SSRF', 'XSS', 'CORS']
+  },
+  {
     id: '1',
     title: 'Napping -THM',
     date: 'Oct 18, 2025',
