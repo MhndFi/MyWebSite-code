@@ -28,7 +28,12 @@ const STORAGE_KEY = 'mhndfi_projects';
 const loadProjects = (): Project[] => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
+    if (stored) {
+      const userProjects: Project[] = JSON.parse(stored);
+      const defaultIds = new Set(defaultProjects.map(p => p.id));
+      const userAdded = userProjects.filter(p => !defaultIds.has(p.id));
+      return [...defaultProjects, ...userAdded];
+    }
   } catch {}
   return defaultProjects;
 };
