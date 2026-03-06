@@ -8,6 +8,7 @@ const PROFILE_IMAGE_STORAGE_KEY = 'mhndfi_profile_image';
 const DEFAULT_PROFILE_IMAGE = mfAvatar;
 const PROFILE_LOGO = mfLogo;
 
+
 const PROFILE_IMAGE_STORAGE_KEY = 'mhndfi_profile_image';
 const DEFAULT_PROFILE_IMAGE = '/images/mf-avatar.svg';
 
@@ -51,6 +52,8 @@ const About: React.FC = () => {
               alt="Mohannad Firon"
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
+              className={`w-40 h-40 rounded-full border-2 border-[#283928] group-hover:border-primary transition-all duration-700 relative z-10 object-cover ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+
 className={`w-40 h-40 rounded-full border-2 border-[#283928] group-hover:border-primary transition-all duration-700 relative z-10 object-cover ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             />
             <img
