@@ -1,4 +1,3 @@
-bash -lc cat > /mnt/data/About.fixed.tsx <<'EOF'
 import React, { useState, useEffect } from 'react';
 import { Terminal, Coffee, Moon, MapPin, Shield, Bug, Crosshair, Upload } from 'lucide-react';
 
@@ -156,20 +155,3 @@ const About: React.FC = () => {
 };
 
 export default About;
-EOF
-
-cat > /mnt/data/FIX_INSTRUCTIONS.txt <<'EOF'
-Repo: MhndFi/MyWebSite-code
-File to replace: components/About.tsx
-Known-good source commit: 2121963b4f2e2e73360d5b1006c5a99ec41258bd
-
-Fastest fix:
-1. Replace components/About.tsx with About.fixed.tsx
-2. Commit and push
-3. Re-run Cloudflare Pages deploy
-
-Alternative git command if you have the repo locally:
-  git checkout 2121963b4f2e2e73360d5b1006c5a99ec41258bd -- components/About.tsx
-  git commit -m "Fix About.tsx merge leftovers"
-  git push
-EOF
