@@ -1,9 +1,42 @@
-import React, { useState } from 'react';
-import { Terminal, Coffee, Moon, MapPin, Shield, Bug, Crosshair } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Terminal, Coffee, Moon, MapPin, Shield, Bug, Crosshair, Upload } from 'lucide-react';
 import SectionHeader from './SectionHeader';
+import mfAvatar from '../images/mf-avatar.svg';
+import mfLogo from '../images/mf-logo.svg';
+
+const PROFILE_IMAGE_STORAGE_KEY = 'mhndfi_profile_image';
+const DEFAULT_PROFILE_IMAGE = mfAvatar;
+const PROFILE_LOGO = mfLogo;
+
+const normalizeProfileImage = (value: string | null): string => {
+  if (!value || !value.trim()) return DEFAULT_PROFILE_IMAGE;
+  if (value === '/images/mf-avatar.svg') return DEFAULT_PROFILE_IMAGE;
+  return value;
+};
 
 const About: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [profileImage, setProfileImage] = useState(DEFAULT_PROFILE_IMAGE);
+
+  useEffect(() => {
+    const storedImage = localStorage.getItem(PROFILE_IMAGE_STORAGE_KEY);
+    setProfileImage(normalizeProfileImage(storedImage));
+  }, []);
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : DEFAULT_PROFILE_IMAGE;
+      setImageLoaded(false);
+      setProfileImage(normalizeProfileImage(result));
+      const normalized = normalizeProfileImage(result);
+      localStorage.setItem(PROFILE_IMAGE_STORAGE_KEY, normalized);
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <section className="w-full py-8" id="about">
@@ -16,13 +49,24 @@ const About: React.FC = () => {
             <div className="absolute -inset-1 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-700" />
             <div className="absolute -inset-0.5 bg-gradient-to-br from-primary/30 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <img
-              src="https://ui-avatars.com/api/?name=Mohannad+Firon&background=111811&color=13ec13&size=200&bold=true"
+              src={profileImage}
               alt="Mohannad Firon"
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
-              className={`w-36 h-36 rounded-full border-2 border-[#283928] group-hover:border-primary grayscale group-hover:grayscale-0 transition-all duration-700 relative z-10 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              className={`w-40 h-40 rounded-full border-2 border-[#283928] group-hover:border-primary transition-all duration-700 relative z-10 object-cover ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            />
+            <img
+              src={PROFILE_LOGO}
+              alt="MF Logo"
+              className="absolute -bottom-2 -right-2 w-14 h-14 rounded-full border border-[#2f3645] shadow-lg z-20"
             />
           </div>
+
+          <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 rounded border border-primary/30 bg-primary/10 text-primary text-[11px] font-mono tracking-widest hover:bg-primary hover:text-background-dark transition-colors">
+            <Upload className="w-3.5 h-3.5" />
+            UPLOAD_AVATAR
+            <input type="file" accept="image/*" className="hidden" onChange={handleAvatarUpload} />
+          </label>
 
           <div className="text-center lg:text-left">
             <h3 className="text-white text-2xl font-bold mb-1">Mohannad Firon</h3>

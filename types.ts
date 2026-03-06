@@ -36,6 +36,7 @@ export interface Certificate {
 
 export interface Writeup {
   id: string;
+  username: string;
   title: string;
   date: string;
   platform: string;
