@@ -37,7 +37,9 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-background-dark selection:bg-primary selection:text-background-dark">
+    <div className="relative min-h-screen bg-background-dark selection:bg-primary selection:text-background-dark overflow-hidden">
+      <div className="pointer-events-none absolute -top-40 -left-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
+      <div className="pointer-events-none absolute top-1/3 -right-40 h-[28rem] w-[28rem] rounded-full bg-secondary/10 blur-3xl" />
       {/* Matrix Rain Background */}
       <MatrixRain />
 
@@ -51,10 +53,10 @@ const App: React.FC = () => {
       <main className="relative pt-24 pb-12 flex flex-col items-center w-full min-h-screen bg-grid-pattern bg-[length:50px_50px]">
         <div className="w-full max-w-[1400px] px-4">
           {/* Global Terminal Window */}
-          <div className={`relative w-full rounded-lg border border-[#283928] bg-panel-dark shadow-2xl shadow-primary/10 overflow-hidden flex flex-col min-h-[85vh] ${konamiActivated ? 'konami-active' : ''}`}>
+          <div className={`relative w-full rounded-2xl border border-[#2d452d] bg-gradient-to-b from-[#121b12] to-[#0e150e] shadow-2xl shadow-primary/10 overflow-hidden flex flex-col min-h-[85vh] backdrop-blur-sm ${konamiActivated ? 'konami-active' : ''}`}>
             
             {/* Terminal Title Bar */}
-            <div className="flex items-center justify-between bg-[#1a251a] border-b border-[#283928] px-4 py-2 text-xs text-[#9db99d] font-mono sticky top-0 z-30">
+            <div className="flex items-center justify-between bg-[#1a251a]/95 border-b border-[#355535] px-4 py-2 text-xs text-[#b6d3b6] font-mono sticky top-0 z-30 backdrop-blur">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1.5">
                   <div className="h-3 w-3 rounded-full bg-[#ff5f56]"></div>
@@ -67,7 +69,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Terminal Buffer Content */}
-            <div className="p-4 md:p-8 flex flex-col gap-12 md:gap-24 font-mono flex-grow">
+            <div className="p-5 md:p-10 flex flex-col gap-12 md:gap-24 font-mono flex-grow">
               <Hero onComplete={() => setIsSystemReady(true)} />
 
               <Suspense fallback={<div className="text-primary text-sm font-mono animate-pulse">[ LOADING... ]</div>}>

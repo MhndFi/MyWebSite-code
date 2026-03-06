@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import SectionHeader from './SectionHeader';
-import PasswordModal from './PasswordModal';
 import { Writeup } from '../types';
-import { FileText, ExternalLink, Calendar, Hash, Plus, X, Trash2 } from 'lucide-react';
+import { FileText, ExternalLink, Calendar, Hash, Plus, X, User, Sparkles } from 'lucide-react';
 
 const defaultWriteups: Writeup[] = [
   {
     id: '2',
+    username: 'mhndfi',
     title: 'How I Found 4 Vulnerabilities in 3 Days — Beginner Journey',
     date: 'Mar 1, 2026',
     platform: 'Bug Bounty',
@@ -16,6 +16,7 @@ const defaultWriteups: Writeup[] = [
   },
   {
     id: '1',
+    username: 'mhndfi',
     title: 'Napping -THM',
     date: 'Oct 18, 2025',
     platform: 'TryHackMe',
@@ -31,7 +32,8 @@ const loadWriteups = (): Writeup[] => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      const userWriteups: Writeup[] = JSON.parse(stored);
+      const parsed: Array<Writeup | (Omit<Writeup, 'username'> & { username?: string })> = JSON.parse(stored);
+      const userWriteups: Writeup[] = parsed.map((item) => ({ ...item, username: item.username?.trim() || 'anonymous' }));
       // Merge: keep all defaults + any user-added writeups not in defaults
       const defaultIds = new Set(defaultWriteups.map(w => w.id));
       const userAdded = userWriteups.filter(w => !defaultIds.has(w.id));
@@ -43,12 +45,9 @@ const loadWriteups = (): Writeup[] => {
 
 const Writeups: React.FC = () => {
   const [writeups, setWriteups] = useState<Writeup[]>(loadWriteups);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [deletePasswordModal, setDeletePasswordModal] = useState(false);
-  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+    const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
-    title: '', date: '', platform: '', description: '', url: '', tags: ''
+    username: '', title: '', date: '', platform: '', description: '', url: '', tags: ''
   });
 
   useEffect(() => {
@@ -56,31 +55,14 @@ const Writeups: React.FC = () => {
   }, [writeups]);
 
   const handleAddClick = () => {
-    setShowPasswordModal(true);
-  };
-
-  const handlePasswordSuccess = () => {
-    setShowPasswordModal(false);
     setShowAddForm(true);
-  };
-
-  const handleDeleteClick = (id: string) => {
-    setPendingDeleteId(id);
-    setDeletePasswordModal(true);
-  };
-
-  const handleDeletePasswordSuccess = () => {
-    setDeletePasswordModal(false);
-    if (pendingDeleteId) {
-      setWriteups(prev => prev.filter(w => w.id !== pendingDeleteId));
-      setPendingDeleteId(null);
-    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newWriteup: Writeup = {
       id: Date.now().toString(),
+      username: formData.username,
       title: formData.title,
       date: formData.date,
       platform: formData.platform,
@@ -89,7 +71,7 @@ const Writeups: React.FC = () => {
       tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean)
     };
     setWriteups(prev => [newWriteup, ...prev]);
-    setFormData({ title: '', date: '', platform: '', description: '', url: '', tags: '' });
+    setFormData({ username: '', title: '', date: '', platform: '', description: '', url: '', tags: '' });
     setShowAddForm(false);
   };
 
@@ -101,7 +83,7 @@ const Writeups: React.FC = () => {
         </div>
         <button
           onClick={handleAddClick}
-          className="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 text-primary text-xs font-mono rounded hover:bg-primary hover:text-background-dark transition-all mb-10"
+          className="flex items-center gap-2 px-4 py-2 bg-primary/15 border border-primary/40 text-primary text-xs font-mono rounded-md hover:bg-primary hover:text-background-dark transition-all mb-10 shadow-[0_0_20px_rgba(19,236,19,0.12)]"
         >
           <Plus className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">ADD_WRITEUP</span>
@@ -115,7 +97,7 @@ const Writeups: React.FC = () => {
               href={writeup.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#0d130d] border border-[#283928] p-6 rounded-lg hover:border-primary/50 transition-all duration-300 flex flex-col h-full"
+              className="bg-gradient-to-br from-[#0d130d] via-[#101810] to-[#0b140b] border border-[#283928] p-6 rounded-xl hover:border-primary/60 transition-all duration-300 flex flex-col h-full shadow-[0_0_24px_rgba(19,236,19,0.08)] hover:shadow-[0_0_30px_rgba(19,236,19,0.18)]"
             >
               <div className="flex justify-between items-start mb-4">
                 <div className="flex flex-wrap gap-2">
@@ -129,6 +111,7 @@ const Writeups: React.FC = () => {
               </div>
 
               <h3 className="text-white text-lg font-bold mb-2 group-hover:text-primary transition-colors">
+                <Sparkles className="inline w-4 h-4 mr-2 text-primary/70" />
                 {writeup.title}
               </h3>
 
@@ -137,6 +120,10 @@ const Writeups: React.FC = () => {
               </p>
 
               <div className="flex items-center gap-4 text-xs font-mono text-[#567556] border-t border-[#283928] pt-4 mt-auto">
+                <div className="flex items-center gap-1.5">
+                  <User className="w-3 h-3" />
+                  <span>{writeup.username}</span>
+                </div>
                 <div className="flex items-center gap-1.5">
                   <Calendar className="w-3 h-3" />
                   <span>{writeup.date}</span>
@@ -147,30 +134,9 @@ const Writeups: React.FC = () => {
                 </div>
               </div>
             </a>
-            <button
-              onClick={() => handleDeleteClick(writeup.id)}
-              className="absolute top-2 right-2 p-1.5 rounded bg-black/60 text-[#567556] hover:text-secondary hover:bg-black/80 border border-transparent hover:border-secondary/30 transition-all opacity-0 group-hover:opacity-100 z-10"
-              title="Delete writeup"
-            >
-              <Trash2 className="w-3 h-3" />
-            </button>
           </div>
         ))}
       </div>
-
-      {/* Password Modal */}
-      <PasswordModal
-        isOpen={showPasswordModal}
-        onClose={() => setShowPasswordModal(false)}
-        onSuccess={handlePasswordSuccess}
-      />
-
-      {/* Delete Password Modal */}
-      <PasswordModal
-        isOpen={deletePasswordModal}
-        onClose={() => { setDeletePasswordModal(false); setPendingDeleteId(null); }}
-        onSuccess={handleDeletePasswordSuccess}
-      />
 
       {/* Add Writeup Form Modal */}
       {showAddForm && (
@@ -183,7 +149,7 @@ const Writeups: React.FC = () => {
             <div className="flex items-center justify-between bg-[#1a251a] border-b border-[#283928] px-4 py-3">
               <div className="flex items-center gap-2 text-primary text-sm font-mono">
                 <FileText className="w-4 h-4" />
-                <span>New Writeup</span>
+                <span>New Community Writeup</span>
               </div>
               <button onClick={() => setShowAddForm(false)} className="text-[#567556] hover:text-white transition-colors">
                 <X className="w-4 h-4" />
@@ -191,6 +157,14 @@ const Writeups: React.FC = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
+              <input
+                type="text"
+                placeholder="Username"
+                value={formData.username}
+                onChange={(e) => setFormData(p => ({ ...p, username: e.target.value }))}
+                required
+                className="bg-black/60 border border-[#283928] text-white font-mono text-sm px-4 py-2.5 rounded focus:outline-none focus:border-primary transition-colors placeholder:text-[#567556]/50"
+              />
               <input
                 type="text"
                 placeholder="Title"

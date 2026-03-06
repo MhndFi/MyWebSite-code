@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import SectionHeader from './SectionHeader';
-import PasswordModal from './PasswordModal';
 import { Project } from '../types';
 import { Terminal, Copy, Check, Github, Plus, X, Trash2 } from 'lucide-react';
 
@@ -41,10 +40,7 @@ const loadProjects = (): Project[] => {
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>(loadProjects);
   const [copied, setCopied] = useState<number | null>(null);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [deletePasswordModal, setDeletePasswordModal] = useState(false);
-  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     title: '', description: '', tags: '', imageUrl: '', repoUrl: ''
   });
@@ -61,25 +57,11 @@ const Projects: React.FC = () => {
   };
 
   const handleAddClick = () => {
-    setShowPasswordModal(true);
-  };
-
-  const handlePasswordSuccess = () => {
-    setShowPasswordModal(false);
     setShowAddForm(true);
   };
 
   const handleDeleteClick = (id: number) => {
-    setPendingDeleteId(id);
-    setDeletePasswordModal(true);
-  };
-
-  const handleDeletePasswordSuccess = () => {
-    setDeletePasswordModal(false);
-    if (pendingDeleteId !== null) {
-      setProjects(prev => prev.filter(p => p.id !== pendingDeleteId));
-      setPendingDeleteId(null);
-    }
+    setProjects(prev => prev.filter(p => p.id !== id));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -89,7 +71,7 @@ const Projects: React.FC = () => {
       title: formData.title,
       description: formData.description,
       tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
-      imageUrl: formData.imageUrl,
+      imageUrl: formData.imageUrl || '/images/mf-logo.svg',
       repoUrl: formData.repoUrl
     };
     setProjects(prev => [newProject, ...prev]);
@@ -118,7 +100,6 @@ const Projects: React.FC = () => {
             key={project.id}
             className="group relative bg-[#0d130d] border border-[#283928] hover:border-primary/40 transition-all duration-300 rounded-lg overflow-hidden flex flex-col lg:flex-row"
           >
-            {/* Image */}
             <div className="h-48 lg:h-auto lg:w-2/5 bg-cover bg-center border-b lg:border-b-0 lg:border-r border-[#283928] grayscale group-hover:grayscale-0 transition-all duration-500 bg-white/5 relative overflow-hidden">
               <img
                 src={project.imageUrl}
@@ -128,7 +109,6 @@ const Projects: React.FC = () => {
               />
             </div>
 
-            {/* Content */}
             <div className="p-6 flex flex-col flex-1">
               <div className="flex justify-between items-start mb-4">
                 <div>
@@ -158,7 +138,6 @@ const Projects: React.FC = () => {
                 {project.description}
               </p>
 
-              {/* Git Clone */}
               <div className="mt-auto bg-black/40 border border-[#283928] rounded px-4 py-3 flex items-center justify-between gap-4 group-hover:border-primary/20 transition-colors">
                 <div className="flex items-center gap-3 overflow-hidden">
                   <Terminal className="w-4 h-4 text-primary/50 shrink-0" />
@@ -176,7 +155,6 @@ const Projects: React.FC = () => {
               </div>
             </div>
 
-            {/* Delete button */}
             <button
               onClick={() => handleDeleteClick(project.id)}
               className="absolute top-2 right-2 p-1.5 rounded bg-black/60 text-[#567556] hover:text-secondary hover:bg-black/80 border border-transparent hover:border-secondary/30 transition-all opacity-0 group-hover:opacity-100 z-10"
@@ -188,21 +166,6 @@ const Projects: React.FC = () => {
         ))}
       </div>
 
-      {/* Password Modal */}
-      <PasswordModal
-        isOpen={showPasswordModal}
-        onClose={() => setShowPasswordModal(false)}
-        onSuccess={handlePasswordSuccess}
-      />
-
-      {/* Delete Password Modal */}
-      <PasswordModal
-        isOpen={deletePasswordModal}
-        onClose={() => { setDeletePasswordModal(false); setPendingDeleteId(null); }}
-        onSuccess={handleDeletePasswordSuccess}
-      />
-
-      {/* Add Asset Form Modal */}
       {showAddForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowAddForm(false)}>
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
@@ -251,6 +214,24 @@ const Projects: React.FC = () => {
                 onChange={(e) => setFormData(p => ({ ...p, imageUrl: e.target.value }))}
                 className="bg-black/60 border border-[#283928] text-white font-mono text-sm px-4 py-2.5 rounded focus:outline-none focus:border-primary transition-colors placeholder:text-[#567556]/50"
               />
+              <label className="bg-black/50 border border-dashed border-[#315031] text-[#8bb18b] font-mono text-xs px-4 py-3 rounded cursor-pointer hover:border-primary/50 hover:text-primary transition-colors">
+                Upload image from your device
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      const value = typeof reader.result === 'string' ? reader.result : '';
+                      setFormData((p) => ({ ...p, imageUrl: value }));
+                    };
+                    reader.readAsDataURL(file);
+                  }}
+                />
+              </label>
               <input
                 type="url"
                 placeholder="Repository URL (https://github.com/...)"
