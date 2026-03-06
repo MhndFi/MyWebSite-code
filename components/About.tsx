@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Terminal, Coffee, Moon, MapPin, Shield, Bug, Crosshair, Upload } from 'lucide-react';
 import SectionHeader from './SectionHeader';
+import mfAvatar from '../images/mf-avatar.svg';
+import mfLogo from '../images/mf-logo.svg';
+
+const PROFILE_IMAGE_STORAGE_KEY = 'mhndfi_profile_image';
+const DEFAULT_PROFILE_IMAGE = mfAvatar;
+const PROFILE_LOGO = mfLogo;
 
 const PROFILE_IMAGE_STORAGE_KEY = 'mhndfi_profile_image';
 const DEFAULT_PROFILE_IMAGE = '/images/mf-avatar.svg';
@@ -45,10 +51,10 @@ const About: React.FC = () => {
               alt="Mohannad Firon"
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
-              className={`w-40 h-40 rounded-full border-2 border-[#283928] group-hover:border-primary grayscale group-hover:grayscale-0 transition-all duration-700 relative z-10 object-cover ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+className={`w-40 h-40 rounded-full border-2 border-[#283928] group-hover:border-primary transition-all duration-700 relative z-10 object-cover ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             />
             <img
-              src="/images/mf-logo.svg"
+              src={PROFILE_LOGO}
               alt="MF Logo"
               className="absolute -bottom-2 -right-2 w-14 h-14 rounded-full border border-[#2f3645] shadow-lg z-20"
             />
