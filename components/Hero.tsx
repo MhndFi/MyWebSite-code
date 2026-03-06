@@ -93,7 +93,8 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
   }, [bootComplete]);
 
   return (
-    <section className="w-full flex flex-col items-center justify-center min-h-[40vh] relative py-8 border-b border-[#283928]/30">
+    <section className="w-full flex flex-col items-center justify-center min-h-[40vh] relative py-10 border-b border-[#345034]/40">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(19,236,19,0.12),transparent_55%)]" />
       <div className="flex flex-col gap-3 text-center z-10 w-full max-w-3xl">
         {/* Terminal Boot Sequence Display */}
         <div className={`flex flex-col items-center justify-end font-mono text-xs tracking-widest transition-all duration-500 ${bootComplete ? 'mb-4 opacity-30 max-h-[60px] overflow-hidden' : 'mb-0 h-[80px]'}`}>
@@ -117,7 +118,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
           }`}
         >
           <div className="relative inline-block mx-auto">
-            <h1 className="text-white text-4xl md:text-7xl font-black leading-tight tracking-tighter drop-shadow-[0_0_15px_rgba(19,236,19,0.3)] min-h-[1.1em]">
+            <h1 className="text-white text-4xl md:text-7xl font-black leading-tight tracking-tighter drop-shadow-[0_0_18px_rgba(19,236,19,0.35)] min-h-[1.1em]">
               {showButtons ? (
                 <GlitchText text={nameText} glitchOnHover={true} />
               ) : (
@@ -131,7 +132,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
             </h1>
           </div>
           
-          <h2 className="text-[#9db99d] text-base md:text-xl font-mono max-w-2xl mx-auto min-h-[1.5em] leading-relaxed">
+          <h2 className="text-[#afcbaf] text-base md:text-xl font-mono max-w-2xl mx-auto min-h-[1.5em] leading-relaxed">
             {showButtons ? (
                 <>
                 Bug Bounty Hunter | Security Researcher | <span className="text-secondary font-bold">Penetration Tester</span>
@@ -149,7 +150,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
           <div className={`flex flex-col sm:flex-row gap-4 z-10 mt-8 justify-center transition-all duration-1000 ${showButtons ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <a
               href="#work"
-              className="group relative flex items-center justify-center overflow-hidden rounded border border-primary/40 bg-primary/5 px-8 py-4 transition-all hover:bg-primary hover:text-background-dark hover:border-primary hover:shadow-[0_0_30px_rgba(19,236,19,0.4)]"
+              className="group relative flex items-center justify-center overflow-hidden rounded-lg border border-primary/40 bg-primary/10 px-8 py-4 transition-all hover:bg-primary hover:text-background-dark hover:border-primary hover:shadow-[0_0_30px_rgba(19,236,19,0.4)]"
             >
               <span className="relative text-primary text-xs font-bold tracking-[0.2em] group-hover:text-background-dark z-10">
                 INITIATE_SEQUENCE.SH
@@ -157,7 +158,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
             </a>
             <a
               href="#connect"
-              className="group relative flex items-center justify-center overflow-hidden rounded border border-secondary/40 bg-secondary/5 px-8 py-4 transition-all hover:bg-secondary hover:text-white hover:border-secondary hover:shadow-[0_0_30px_rgba(255,51,51,0.4)]"
+              className="group relative flex items-center justify-center overflow-hidden rounded-lg border border-secondary/40 bg-secondary/10 px-8 py-4 transition-all hover:bg-secondary hover:text-white hover:border-secondary hover:shadow-[0_0_30px_rgba(255,51,51,0.4)]"
             >
               <span className="relative text-secondary text-xs font-bold tracking-[0.2em] group-hover:text-white z-10">
                 EMERGENCY_OVERRIDE.EXE
