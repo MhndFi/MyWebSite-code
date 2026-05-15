@@ -17,7 +17,7 @@
   ],
   "vars": {
     "ACCESS_AUD": "7ef26e2dcd83c4eb6b7a065cb01f988745d8f50940e294cc2e3beef34a084327",
-    "ACCESS_TEAM_DOMAIN": "REPLACE_ME.cloudflareaccess.com"
+    "ACCESS_TEAM_DOMAIN": "mhndfi.cloudflareaccess.com"
   },
   "observability": {
     "enabled": true
