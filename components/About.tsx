@@ -20,7 +20,8 @@ import mfAvatar from '../images/mf-avatar.svg';
 import mfLogo from '../images/mf-logo.svg';
 
 const AVATAR_ENDPOINT = '/api/avatar';
-const SESSION_ENDPOINT = '/api/session';
+const ADMIN_AVATAR_ENDPOINT = '/api/admin/avatar';
+const SESSION_ENDPOINT = '/api/admin/session';
 
 const About: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -87,7 +88,7 @@ const About: React.FC = () => {
 
     setUploadState('uploading');
     try {
-      const res = await fetch(AVATAR_ENDPOINT, {
+      const res = await fetch(ADMIN_AVATAR_ENDPOINT, {
         method: 'POST',
         headers: { 'content-type': file.type },
         body: file,
