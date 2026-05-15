@@ -5,17 +5,21 @@ const SoundToggle: React.FC = () => {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
 
-  useEffect(() => {
-    // Initialize Web Audio API context
-    if (typeof window !== 'undefined' && !audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const ensureContext = (): AudioContext | null => {
+    if (typeof window === 'undefined') return null;
+    if (!audioContextRef.current) {
+      const Ctor = window.AudioContext || (window as any).webkitAudioContext;
+      if (!Ctor) return null;
+      audioContextRef.current = new Ctor();
     }
-  }, []);
+    return audioContextRef.current;
+  };
 
   const playBeep = (frequency: number = 800, duration: number = 100) => {
-    if (!soundEnabled || !audioContextRef.current) return;
+    if (!soundEnabled) return;
+    const ctx = ensureContext();
+    if (!ctx) return;
 
-    const ctx = audioContextRef.current;
     const oscillator = ctx.createOscillator();
     const gainNode = ctx.createGain();
 
@@ -23,10 +27,10 @@ const SoundToggle: React.FC = () => {
     gainNode.connect(ctx.destination);
 
     oscillator.frequency.value = frequency;
-    oscillator.type = 'square'; // Retro computer sound
+    oscillator.type = 'sine';
 
-    gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration / 1000);
+    gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration / 1000);
 
     oscillator.start(ctx.currentTime);
     oscillator.stop(ctx.currentTime + duration / 1000);
@@ -35,14 +39,30 @@ const SoundToggle: React.FC = () => {
   const toggleSound = () => {
     const newState = !soundEnabled;
     setSoundEnabled(newState);
-    if (newState && audioContextRef.current) {
-      // Play a confirmation beep
-      playBeep(1200, 50);
-      setTimeout(() => playBeep(1400, 50), 60);
+    const ctx = ensureContext();
+    if (newState && ctx) {
+      if (ctx.state === 'suspended') {
+        ctx.resume().catch(() => undefined);
+      }
+      // Immediate confirmation beeps, no setTimeout — newState isn't yet committed
+      // so call private impl directly.
+      const beep = (frequency: number, duration: number, delaySec = 0) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = frequency;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.08, ctx.currentTime + delaySec);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delaySec + duration / 1000);
+        osc.start(ctx.currentTime + delaySec);
+        osc.stop(ctx.currentTime + delaySec + duration / 1000);
+      };
+      beep(1200, 50);
+      beep(1400, 50, 0.06);
     }
   };
 
-  // Expose sound function to window for global access
   useEffect(() => {
     if (soundEnabled) {
       (window as any).playSystemBeep = playBeep;
@@ -51,18 +71,25 @@ const SoundToggle: React.FC = () => {
     }
   }, [soundEnabled]);
 
+  useEffect(() => {
+    return () => {
+      audioContextRef.current?.close().catch(() => undefined);
+    };
+  }, []);
+
   return (
     <button
       onClick={toggleSound}
-      className="fixed bottom-4 right-4 z-50 p-3 bg-panel-dark border border-[#283928] hover:border-primary rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(19,236,19,0.3)] group"
-      title={soundEnabled ? 'Disable sound' : 'Enable sound'}
+      aria-pressed={soundEnabled}
+      aria-label={soundEnabled ? 'Disable sound' : 'Enable sound'}
+      className="fixed bottom-4 right-4 z-50 p-3 bg-surface border border-border-soft hover:border-primary shadow-soft hover:shadow-soft-lg rounded-full transition-all duration-300 group"
     >
       {soundEnabled ? (
         <Volume2 className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
       ) : (
-        <VolumeX className="w-5 h-5 text-[#567556] group-hover:text-primary group-hover:scale-110 transition-all" />
+        <VolumeX className="w-5 h-5 text-ink-muted group-hover:text-primary group-hover:scale-110 transition-all" />
       )}
-      <span className="absolute -top-8 right-0 bg-panel-dark border border-[#283928] px-2 py-1 rounded text-xs text-secondary-light opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+      <span className="absolute -top-9 right-0 bg-surface border border-border-soft px-2 py-1 rounded-md text-xs text-ink-muted opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-soft">
         {soundEnabled ? 'Audio: ON' : 'Audio: OFF'}
       </span>
     </button>

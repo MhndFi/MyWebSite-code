@@ -10,29 +10,29 @@ const certificates: Certificate[] = [
     issuer: 'PentesterLab',
     date: '2025-10-25',
     credentialId: 'PTLH2403',
-    description: 'Demonstrates ability to forge complex HTTP requests using curl or custom scripts.'
+    description: 'Demonstrates ability to forge complex HTTP requests using curl or custom scripts.',
   },
   {
     id: 'thm',
     title: 'Web Application Pentesting Path',
     issuer: 'TryHackMe',
     date: 'Aug 21, 2025',
-    description: 'Comprehensive learning path covering web vulnerabilities and exploitation techniques.'
+    description: 'Comprehensive learning path covering web vulnerabilities and exploitation techniques.',
   },
   {
     id: 'hackeru',
     title: 'Cyber & Information Security',
     issuer: 'HackerU',
     date: 'Jun 12, 2022',
-    description: 'Ethical Hacking course completion (540 academic hours).'
+    description: 'Ethical Hacking course completion (540 academic hours).',
   },
   {
     id: 'tdx',
     title: 'TDX Arena Penetration Tester',
     issuer: 'ThriveDX Labs',
     date: 'Jun 12, 2022',
-    credentialId: '110919'
-  }
+    credentialId: '110919',
+  },
 ];
 
 const Certificates: React.FC = () => {
@@ -44,35 +44,35 @@ const Certificates: React.FC = () => {
         {certificates.map((cert) => (
           <div
             key={cert.id}
-            className="bg-[#0d130d] border border-[#283928] p-5 rounded-lg hover:border-primary/40 transition-all duration-300 group"
+            className="bg-surface border border-border-soft p-5 rounded-lg hover:border-primary/40 hover:shadow-soft-lg shadow-soft transition-all duration-300 group"
           >
             <div className="flex items-start justify-between mb-3">
-              <div className="p-2 bg-black/40 rounded border border-[#283928] group-hover:border-primary/30 transition-colors">
+              <div className="p-2 bg-primary-soft rounded-md border border-primary/20 group-hover:border-primary/40 transition-colors">
                 <Award className="w-5 h-5 text-primary" />
               </div>
               <div className="text-right">
-                <span className="text-[#567556] text-[10px] font-mono uppercase block">Issued by</span>
-                <span className="text-white text-sm font-bold">{cert.issuer}</span>
+                <span className="text-ink-muted text-[10px] font-mono uppercase block">Issued by</span>
+                <span className="text-ink text-sm font-bold">{cert.issuer}</span>
               </div>
             </div>
 
-            <h3 className="text-white text-base font-bold mb-2 group-hover:text-primary transition-colors">
+            <h3 className="text-ink text-base font-bold mb-2 group-hover:text-primary transition-colors font-display">
               {cert.title}
             </h3>
 
             {cert.description && (
-              <p className="text-secondary-light/60 text-sm mb-3 leading-relaxed">
+              <p className="text-ink-muted text-sm mb-3 leading-relaxed">
                 {cert.description}
               </p>
             )}
 
-            <div className="flex flex-col gap-1.5 border-t border-[#283928] pt-3 mt-auto">
-              <div className="flex items-center gap-2 text-[#567556] text-xs font-mono">
+            <div className="flex flex-col gap-1.5 border-t border-border-soft pt-3 mt-auto">
+              <div className="flex items-center gap-2 text-ink-muted text-xs font-mono">
                 <Calendar className="w-3 h-3" />
                 <span>{cert.date}</span>
               </div>
               {cert.credentialId && (
-                <div className="flex items-center gap-2 text-[#567556] text-xs font-mono">
+                <div className="flex items-center gap-2 text-ink-muted text-xs font-mono">
                   <Hash className="w-3 h-3" />
                   <span>ID: {cert.credentialId}</span>
                 </div>
