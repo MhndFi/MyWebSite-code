@@ -11,8 +11,11 @@ const GlitchText: React.FC<GlitchTextProps> = ({ text, className = '', glitchOnH
   const [glitchText, setGlitchText] = useState(text);
 
   useEffect(() => {
+    setGlitchText(text);
+  }, [text]);
+
+  useEffect(() => {
     if (!isGlitching && !glitchOnHover) {
-      // Random glitch effect every 5-10 seconds
       const randomDelay = Math.random() * 5000 + 5000;
       const timer = setTimeout(() => {
         triggerGlitch();
@@ -27,14 +30,17 @@ const GlitchText: React.FC<GlitchTextProps> = ({ text, className = '', glitchOnH
     let iterations = 0;
 
     const interval = setInterval(() => {
-      setGlitchText(text.split('').map((char, index) => {
-        if (index < iterations) {
-          return text[index];
-        }
-        return chars[Math.floor(Math.random() * chars.length)];
-      }).join(''));
+      setGlitchText(
+        text
+          .split('')
+          .map((char, index) => {
+            if (index < iterations) return text[index];
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join('')
+      );
 
-      iterations += 1/3;
+      iterations += 1 / 3;
 
       if (iterations >= text.length) {
         clearInterval(interval);
@@ -49,26 +55,18 @@ const GlitchText: React.FC<GlitchTextProps> = ({ text, className = '', glitchOnH
       className={`relative inline-block ${className}`}
       onMouseEnter={() => glitchOnHover && triggerGlitch()}
     >
-      <span className={`${isGlitching ? 'opacity-80' : ''}`}>
-        {glitchText}
-      </span>
+      <span className={`${isGlitching ? 'opacity-85' : ''}`}>{glitchText}</span>
       {isGlitching && (
         <>
           <span
-            className="absolute top-0 left-0 text-secondary opacity-70"
-            style={{
-              transform: 'translate(-2px, 0)',
-              clipPath: 'inset(0 0 50% 0)',
-            }}
+            className="absolute top-0 left-0 text-primary opacity-70"
+            style={{ transform: 'translate(-2px, 0)', clipPath: 'inset(0 0 50% 0)' }}
           >
             {glitchText}
           </span>
           <span
-            className="absolute top-0 left-0 text-primary opacity-70"
-            style={{
-              transform: 'translate(2px, 0)',
-              clipPath: 'inset(50% 0 0 0)',
-            }}
+            className="absolute top-0 left-0 text-secondary opacity-60"
+            style={{ transform: 'translate(2px, 0)', clipPath: 'inset(50% 0 0 0)' }}
           >
             {glitchText}
           </span>

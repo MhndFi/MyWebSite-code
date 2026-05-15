@@ -10,51 +10,52 @@ const MatrixRain: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.scale(dpr, dpr);
     };
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Matrix rain configuration
     const fontSize = 14;
-    const columns = Math.floor(canvas.width / fontSize);
+    const columns = Math.floor(window.innerWidth / fontSize);
     const drops: number[] = Array(columns).fill(1);
-
-    // Characters - mixture of latin and numbers
     const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    // Animation loop
     const draw = () => {
-      // Semi-transparent black to create fade effect
-      ctx.fillStyle = 'rgba(10, 15, 10, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Soft fade against the light background
+      ctx.fillStyle = 'rgba(245, 242, 250, 0.07)';
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-      ctx.fillStyle = '#13ec13';
-      ctx.font = `${fontSize}px monospace`;
+      // Subtle purple ink
+      ctx.fillStyle = 'rgba(124, 77, 255, 0.55)';
+      ctx.font = `${fontSize}px JetBrains Mono, monospace`;
 
-      // Loop through drops
       for (let i = 0; i < drops.length; i++) {
-        // Random character
         const char = chars[Math.floor(Math.random() * chars.length)];
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
         ctx.fillText(char, x, y);
 
-        // Reset drop randomly for infinite effect
-        if (y > canvas.height && Math.random() > 0.975) {
+        if (y > window.innerHeight && Math.random() > 0.975) {
           drops[i] = 0;
         }
-
         drops[i]++;
       }
     };
 
-    // Animation frame
-    const interval = setInterval(draw, 50);
+    const interval = setInterval(draw, 70);
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      clearInterval(interval);
+    }
 
     return () => {
       clearInterval(interval);
@@ -65,8 +66,9 @@ const MatrixRain: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-10"
-      style={{ mixBlendMode: 'screen' }}
+      aria-hidden="true"
+      className="fixed inset-0 pointer-events-none z-0 opacity-[0.18]"
+      style={{ mixBlendMode: 'multiply' }}
     />
   );
 };

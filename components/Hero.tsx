@@ -13,7 +13,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
   const [nameText, setNameText] = useState('');
   const [roleText, setRoleText] = useState('');
   const [showButtons, setShowButtons] = useState(false);
-  
+
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const addTimeout = (callback: () => void, delay: number) => {
@@ -23,11 +23,11 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
 
   useEffect(() => {
     const sequence = [
-      "> INITIATING SYSTEM BOOT...",
-      "> LOAD KERNEL MODULES... [DONE]",
-      "> ESTABLISHING SECURE UPLINK...",
-      "> VERIFYING ENCRYPTION... [OK]",
-      "> ACCESS GRANTED."
+      "> initiating session…",
+      "> loading kernel modules… [done]",
+      "> establishing secure uplink…",
+      "> verifying tls handshake… [ok]",
+      "> access granted.",
     ];
 
     let lineIndex = 0;
@@ -49,7 +49,7 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
         charIndex++;
         addTimeout(typeBoot, Math.random() * 15 + 8);
       } else {
-        setTypedLines(prev => [...prev, currentFullLine]);
+        setTypedLines((prev) => [...prev, currentFullLine]);
         setCurrentLine('');
         charIndex = 0;
         lineIndex++;
@@ -64,15 +64,15 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
   useEffect(() => {
     if (!bootComplete) return;
 
-    const name = "MOHANNAD FIRON";
-    const fullRole = "Bug Bounty Hunter | Security Researcher | Penetration Tester";
+    const name = 'MOHANNAD FIRON';
+    const fullRole = 'Bug Bounty Hunter · Security Researcher · Penetration Tester';
     let charIndex = 0;
 
     const typeName = () => {
       if (charIndex < name.length) {
         setNameText(name.slice(0, charIndex + 1));
         charIndex++;
-        addTimeout(typeName, Math.random() * 60 + 40); 
+        addTimeout(typeName, Math.random() * 60 + 40);
       } else {
         charIndex = 0;
         addTimeout(typeRole, 400);
@@ -80,45 +80,52 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
     };
 
     const typeRole = () => {
-        if (charIndex < fullRole.length) {
-            setRoleText(fullRole.slice(0, charIndex + 1));
-            charIndex++;
-            addTimeout(typeRole, Math.random() * 20 + 15);
-        } else {
-            addTimeout(() => setShowButtons(true), 400);
-        }
-    }
+      if (charIndex < fullRole.length) {
+        setRoleText(fullRole.slice(0, charIndex + 1));
+        charIndex++;
+        addTimeout(typeRole, Math.random() * 20 + 15);
+      } else {
+        addTimeout(() => setShowButtons(true), 400);
+      }
+    };
 
     addTimeout(typeName, 200);
   }, [bootComplete]);
 
   return (
-    <section className="w-full flex flex-col items-center justify-center min-h-[40vh] relative py-10 border-b border-[#345034]/40">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(19,236,19,0.12),transparent_55%)]" />
+    <section className="w-full flex flex-col items-center justify-center min-h-[40vh] relative py-10 border-b border-border-soft">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(124,77,255,0.10),transparent_55%)]"
+      />
       <div className="flex flex-col gap-3 text-center z-10 w-full max-w-3xl">
-        {/* Terminal Boot Sequence Display */}
-        <div className={`flex flex-col items-center justify-end font-mono text-xs tracking-widest transition-all duration-500 ${bootComplete ? 'mb-4 opacity-30 max-h-[60px] overflow-hidden' : 'mb-0 h-[80px]'}`}>
-           {typedLines.map((line, i) => (
-             <div key={i} className="text-[#567556] w-full text-center py-0">
-               {line}
-             </div>
-           ))}
-           {!bootComplete && (
-             <div className="text-primary w-full text-center">
-               {currentLine}
-               <span className="animate-blink ml-1 inline-block w-2 h-4 bg-primary align-middle"></span>
-             </div>
-           )}
+        {/* Boot Sequence */}
+        <div
+          className={`flex flex-col items-center justify-end font-mono text-xs tracking-wide transition-all duration-500 ${
+            bootComplete ? 'mb-4 opacity-40 max-h-[60px] overflow-hidden' : 'mb-0 h-[80px]'
+          }`}
+        >
+          {typedLines.map((line, i) => (
+            <div key={i} className="text-ink-muted w-full text-center py-0">
+              {line}
+            </div>
+          ))}
+          {!bootComplete && (
+            <div className="text-primary w-full text-center">
+              {currentLine}
+              <span className="animate-blink ml-1 inline-block w-2 h-4 bg-primary align-middle"></span>
+            </div>
+          )}
         </div>
 
         {/* Main Content */}
-        <div 
+        <div
           className={`flex flex-col gap-4 transition-all duration-1000 ease-out transform ${
             bootComplete ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
           }`}
         >
           <div className="relative inline-block mx-auto">
-            <h1 className="text-white text-4xl md:text-7xl font-black leading-tight tracking-tighter drop-shadow-[0_0_18px_rgba(19,236,19,0.35)] min-h-[1.1em]">
+            <h1 className="text-ink font-display text-4xl md:text-7xl font-black leading-tight tracking-tight min-h-[1.1em]">
               {showButtons ? (
                 <GlitchText text={nameText} glitchOnHover={true} />
               ) : (
@@ -131,45 +138,50 @@ const Hero: React.FC<HeroProps> = ({ onComplete }) => {
               )}
             </h1>
           </div>
-          
-          <h2 className="text-[#afcbaf] text-base md:text-xl font-mono max-w-2xl mx-auto min-h-[1.5em] leading-relaxed">
+
+          <h2 className="text-ink-muted text-base md:text-xl font-mono max-w-2xl mx-auto min-h-[1.5em] leading-relaxed">
             {showButtons ? (
-                <>
-                Bug Bounty Hunter | Security Researcher | <span className="text-secondary font-bold">Penetration Tester</span>
-                </>
+              <>
+                Bug Bounty Hunter · Security Researcher ·{' '}
+                <span className="text-secondary font-semibold">Penetration Tester</span>
+              </>
             ) : (
-                <>
+              <>
                 {roleText}
                 {nameText && !showButtons && (
-                     <span className="animate-blink ml-1 inline-block w-2 h-5 bg-primary align-middle"></span>
+                  <span className="animate-blink ml-1 inline-block w-2 h-5 bg-primary align-middle"></span>
                 )}
-                </>
+              </>
             )}
           </h2>
 
-          <div className={`flex flex-col sm:flex-row gap-4 z-10 mt-8 justify-center transition-all duration-1000 ${showButtons ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <div
+            className={`flex flex-col sm:flex-row gap-4 z-10 mt-8 justify-center transition-all duration-1000 ${
+              showButtons ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
             <a
               href="#work"
-              className="group relative flex items-center justify-center overflow-hidden rounded-lg border border-primary/40 bg-primary/10 px-8 py-4 transition-all hover:bg-primary hover:text-background-dark hover:border-primary hover:shadow-[0_0_30px_rgba(19,236,19,0.4)]"
+              className="group relative flex items-center justify-center overflow-hidden rounded-lg border border-primary/40 bg-primary-soft px-8 py-4 transition-all hover:bg-primary hover:border-primary hover:shadow-soft-lg"
             >
-              <span className="relative text-primary text-xs font-bold tracking-[0.2em] group-hover:text-background-dark z-10">
-                INITIATE_SEQUENCE.SH
+              <span className="relative text-primary text-xs font-bold tracking-[0.2em] group-hover:text-white z-10">
+                VIEW_PROJECTS
               </span>
             </a>
             <a
               href="#connect"
-              className="group relative flex items-center justify-center overflow-hidden rounded-lg border border-secondary/40 bg-secondary/10 px-8 py-4 transition-all hover:bg-secondary hover:text-white hover:border-secondary hover:shadow-[0_0_30px_rgba(255,51,51,0.4)]"
+              className="group relative flex items-center justify-center overflow-hidden rounded-lg border border-secondary/30 bg-white px-8 py-4 transition-all hover:bg-secondary hover:border-secondary hover:shadow-soft-lg"
             >
               <span className="relative text-secondary text-xs font-bold tracking-[0.2em] group-hover:text-white z-10">
-                EMERGENCY_OVERRIDE.EXE
+                GET_IN_TOUCH
               </span>
             </a>
           </div>
         </div>
       </div>
-      
+
       {showButtons && (
-        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-primary/40">
+        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-primary/50">
           <ChevronDown className="w-6 h-6" />
         </div>
       )}
