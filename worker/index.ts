@@ -24,7 +24,10 @@ const getJwks = (teamDomain: string) => {
   return jwks;
 };
 
-async function verifyAccessJwt(request: Request, env: Env): Promise<{ ok: true; email: string } | { ok: false; reason: string }> {
+async function verifyAccessJwt(
+  request: Request,
+  env: Env,
+): Promise<{ ok: true; email: string } | { ok: false; reason: string }> {
   const token = request.headers.get('Cf-Access-Jwt-Assertion');
   if (!token) return { ok: false, reason: 'missing assertion' };
   if (!env.ACCESS_TEAM_DOMAIN || env.ACCESS_TEAM_DOMAIN.startsWith('REPLACE_ME')) {
@@ -49,7 +52,7 @@ async function handleGetAvatar(env: Env): Promise<Response> {
   const headers = new Headers();
   object.writeHttpMetadata(headers);
   headers.set('etag', object.httpEtag);
-  headers.set('cache-control', 'public, max-age=60, must-revalidate');
+  headers.set('cache-control', 'public, max-age=30, must-revalidate');
   return new Response(object.body, { headers });
 }
 
@@ -92,7 +95,7 @@ async function handlePostAvatar(request: Request, env: Env): Promise<Response> {
   }
 
   await env.AVATAR_BUCKET.put(AVATAR_KEY, bytes, {
-    httpMetadata: { contentType: mime, cacheControl: 'public, max-age=60, must-revalidate' },
+    httpMetadata: { contentType: mime, cacheControl: 'public, max-age=30, must-revalidate' },
     customMetadata: { uploadedBy: auth.email || 'unknown', uploadedAt: new Date().toISOString() },
   });
 
@@ -122,20 +125,37 @@ async function handleSession(request: Request, env: Env): Promise<Response> {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    const path = url.pathname;
 
-    if (url.pathname === '/api/avatar') {
-      if (request.method === 'GET' || request.method === 'HEAD') return handleGetAvatar(env);
+    // Public read — must NOT be behind Access so unauthenticated visitors can load the avatar.
+    if (path === '/api/avatar' && (request.method === 'GET' || request.method === 'HEAD')) {
+      return handleGetAvatar(env);
+    }
+
+    // Admin endpoints — Cloudflare Access protects /api/admin/* and injects the JWT.
+    if (path === '/api/admin/avatar') {
       if (request.method === 'POST' || request.method === 'PUT') return handlePostAvatar(request, env);
       if (request.method === 'DELETE') return handleDeleteAvatar(request, env);
-      return new Response('method not allowed', { status: 405, headers: { allow: 'GET, POST, DELETE' } });
+      return new Response('method not allowed', { status: 405, headers: { allow: 'POST, PUT, DELETE' } });
     }
 
-    if (url.pathname === '/api/session') {
-      if (request.method === 'GET') return handleSession(request, env);
-      return new Response('method not allowed', { status: 405, headers: { allow: 'GET' } });
+    if (path === '/api/admin/session' && request.method === 'GET') {
+      return handleSession(request, env);
     }
 
-    if (url.pathname.startsWith('/api/')) {
+    // Backwards-compatible redirects for the old paths.
+    if (path === '/api/session') {
+      return Response.redirect(new URL('/api/admin/session', url), 308);
+    }
+    if (path === '/api/avatar') {
+      // non-GET on the public path → guide to admin endpoint
+      return new Response('method not allowed on public endpoint; use /api/admin/avatar', {
+        status: 405,
+        headers: { allow: 'GET, HEAD' },
+      });
+    }
+
+    if (path.startsWith('/api/')) {
       return new Response('not found', { status: 404 });
     }
 
