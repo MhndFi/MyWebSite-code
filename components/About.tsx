@@ -1,65 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import { Terminal, Coffee, Moon, MapPin, Shield, Bug, Crosshair, Upload, AlertTriangle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Terminal,
+  Coffee,
+  Moon,
+  MapPin,
+  Shield,
+  Bug,
+  Crosshair,
+  Upload,
+  AlertTriangle,
+  CheckCircle2,
+  Loader2,
+} from 'lucide-react';
 
 import SectionHeader from './SectionHeader';
-import { safeImageSrc, validateImageFile } from '../utils/safe';
+import { validateImageFile } from '../utils/safe';
 
 import mfAvatar from '../images/mf-avatar.svg';
 import mfLogo from '../images/mf-logo.svg';
 
-const PROFILE_IMAGE_STORAGE_KEY = 'mhndfi_profile_image';
-const DEFAULT_PROFILE_IMAGE = mfAvatar;
-const PROFILE_LOGO = mfLogo;
-
-const normalizeProfileImage = (value: string | null): string => {
-  if (!value || !value.trim()) return DEFAULT_PROFILE_IMAGE;
-  if (value === '/images/mf-avatar.svg') return DEFAULT_PROFILE_IMAGE;
-  const safe = safeImageSrc(value);
-  return safe || DEFAULT_PROFILE_IMAGE;
-};
+const AVATAR_ENDPOINT = '/api/avatar';
+const SESSION_ENDPOINT = '/api/session';
 
 const About: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [profileImage, setProfileImage] = useState(DEFAULT_PROFILE_IMAGE);
+  const [avatarSrc, setAvatarSrc] = useState<string>(mfAvatar);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminEmail, setAdminEmail] = useState<string>('');
+  const [uploadState, setUploadState] = useState<'idle' | 'uploading' | 'done' | 'error'>('idle');
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const objectUrlRef = useRef<string | null>(null);
 
+  // Load the current avatar from the API, falling back to the bundled default.
   useEffect(() => {
-    try {
-      const storedImage = localStorage.getItem(PROFILE_IMAGE_STORAGE_KEY);
-      setProfileImage(normalizeProfileImage(storedImage));
-    } catch {
-      setProfileImage(DEFAULT_PROFILE_IMAGE);
-    }
+    const ac = new AbortController();
+    fetch(AVATAR_ENDPOINT, { signal: ac.signal, cache: 'no-cache' })
+      .then((res) => {
+        if (!res.ok) throw new Error('no avatar');
+        return res.blob();
+      })
+      .then((blob) => {
+        if (!/^image\//.test(blob.type)) throw new Error('not an image');
+        const url = URL.createObjectURL(blob);
+        if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = url;
+        setAvatarSrc(url);
+        setImageLoaded(false);
+      })
+      .catch(() => {
+        setAvatarSrc(mfAvatar);
+      });
+    return () => {
+      ac.abort();
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = null;
+    };
   }, []);
 
-  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Check whether the visitor is signed in via Cloudflare Access (admin).
+  useEffect(() => {
+    const ac = new AbortController();
+    fetch(SESSION_ENDPOINT, { signal: ac.signal, cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : { authenticated: false }))
+      .then((data: { authenticated?: boolean; email?: string }) => {
+        setIsAdmin(Boolean(data.authenticated));
+        setAdminEmail(typeof data.email === 'string' ? data.email : '');
+      })
+      .catch(() => {
+        setIsAdmin(false);
+      });
+    return () => ac.abort();
+  }, []);
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    e.target.value = ''; // allow re-selecting same file
+    e.target.value = '';
     setUploadError(null);
     if (!file) return;
 
     const error = validateImageFile(file, { maxBytes: 1.5 * 1024 * 1024 });
     if (error) {
       setUploadError(error);
+      setUploadState('error');
       return;
     }
 
-    const reader = new FileReader();
-
-    reader.onerror = () => setUploadError('Failed to read file.');
-    reader.onload = () => {
-      const result = typeof reader.result === 'string' ? reader.result : DEFAULT_PROFILE_IMAGE;
-      const normalized = normalizeProfileImage(result);
-      setImageLoaded(false);
-      setProfileImage(normalized);
-      try {
-        localStorage.setItem(PROFILE_IMAGE_STORAGE_KEY, normalized);
-      } catch {
-        setUploadError('Could not save image (storage quota exceeded).');
+    setUploadState('uploading');
+    try {
+      const res = await fetch(AVATAR_ENDPOINT, {
+        method: 'POST',
+        headers: { 'content-type': file.type },
+        body: file,
+        credentials: 'include',
+      });
+      if (!res.ok) {
+        const detail = await res.text().catch(() => '');
+        throw new Error(`HTTP ${res.status}${detail ? `: ${detail.slice(0, 200)}` : ''}`);
       }
-    };
-
-    reader.readAsDataURL(file);
+      // Reload the avatar from the API so all viewers see the new one.
+      const refreshed = await fetch(AVATAR_ENDPOINT, { cache: 'no-cache' });
+      if (refreshed.ok) {
+        const blob = await refreshed.blob();
+        const url = URL.createObjectURL(blob);
+        if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = url;
+        setAvatarSrc(url);
+        setImageLoaded(false);
+      }
+      setUploadState('done');
+      setTimeout(() => setUploadState('idle'), 2500);
+    } catch (err) {
+      setUploadError((err as Error).message);
+      setUploadState('error');
+    }
   };
 
   return (
@@ -74,13 +127,13 @@ const About: React.FC = () => {
             <div className="absolute -inset-0.5 bg-gradient-to-br from-primary/30 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             <img
-              src={profileImage}
+              src={avatarSrc}
               alt="Mohannad Firon"
               loading="lazy"
               decoding="async"
               onLoad={() => setImageLoaded(true)}
               onError={() => {
-                setProfileImage(DEFAULT_PROFILE_IMAGE);
+                setAvatarSrc(mfAvatar);
                 setImageLoaded(true);
               }}
               className={`w-40 h-40 rounded-full border-2 border-border-soft group-hover:border-primary transition-all duration-500 relative z-10 object-cover bg-white shadow-soft ${
@@ -89,23 +142,56 @@ const About: React.FC = () => {
             />
 
             <img
-              src={PROFILE_LOGO}
+              src={mfLogo}
               alt=""
               aria-hidden="true"
               className="absolute -bottom-2 -right-2 w-14 h-14 rounded-full border border-border-soft bg-white shadow-soft z-20"
             />
           </div>
 
-          <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 rounded-md border border-primary/30 bg-primary-soft text-primary text-[11px] font-mono tracking-widest hover:bg-primary hover:text-white transition-colors">
-            <Upload className="w-3.5 h-3.5" />
-            UPLOAD_AVATAR
-            <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" className="hidden" onChange={handleAvatarUpload} />
-          </label>
+          {/* Admin-only upload (visible only when signed in via Cloudflare Access) */}
+          {isAdmin && (
+            <div className="flex flex-col items-center lg:items-start gap-2 w-full">
+              <label
+                className={`cursor-pointer inline-flex items-center gap-2 px-3 py-2 rounded-md border text-[11px] font-mono tracking-widest transition-colors ${
+                  uploadState === 'uploading'
+                    ? 'border-primary/30 bg-primary-soft/60 text-primary/60 cursor-not-allowed'
+                    : 'border-primary/30 bg-primary-soft text-primary hover:bg-primary hover:text-white'
+                }`}
+              >
+                {uploadState === 'uploading' ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : uploadState === 'done' ? (
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                ) : (
+                  <Upload className="w-3.5 h-3.5" />
+                )}
+                {uploadState === 'uploading'
+                  ? 'UPLOADING…'
+                  : uploadState === 'done'
+                    ? 'UPDATED'
+                    : 'REPLACE_AVATAR'}
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif"
+                  className="hidden"
+                  disabled={uploadState === 'uploading'}
+                  onChange={handleAvatarUpload}
+                />
+              </label>
+              <span className="text-[10px] font-mono text-ink-dim uppercase tracking-widest">
+                Signed in as {adminEmail || 'admin'}
+              </span>
+            </div>
+          )}
 
           {uploadError && (
-            <div role="alert" className="flex items-center gap-2 text-xs text-secondary bg-secondary/5 border border-secondary/20 rounded-md px-3 py-2">
-              <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-              <span>{uploadError}</span>
+            <div
+              role="alert"
+              className="flex items-start gap-2 text-xs text-secondary bg-secondary/5 border border-secondary/20 rounded-md px-3 py-2 max-w-xs"
+            >
+              <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+              <span className="break-words">{uploadError}</span>
             </div>
           )}
 

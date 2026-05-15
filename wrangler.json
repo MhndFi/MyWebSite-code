@@ -1,7 +1,25 @@
 {
+  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "mywebsite",
+  "main": "worker/index.ts",
   "compatibility_date": "2024-09-23",
+  "compatibility_flags": [],
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "r2_buckets": [
+    {
+      "binding": "AVATAR_BUCKET",
+      "bucket_name": "mywebsite-uploads"
+    }
+  ],
+  "vars": {
+    "ACCESS_AUD": "7ef26e2dcd83c4eb6b7a065cb01f988745d8f50940e294cc2e3beef34a084327",
+    "ACCESS_TEAM_DOMAIN": "mhndfi.cloudflareaccess.com"
+  },
+  "observability": {
+    "enabled": true
   }
 }
