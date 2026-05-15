@@ -19,7 +19,7 @@ import { validateImageFile } from '../utils/safe';
 import mfAvatar from '../images/mf-avatar.svg';
 import mfLogo from '../images/mf-logo.svg';
 
-const AVATAR_ENDPOINT = '/api/avatar';
+const AVATAR_ENDPOINT = '/avatar';
 const ADMIN_AVATAR_ENDPOINT = '/api/admin/avatar';
 const SESSION_ENDPOINT = '/api/admin/session';
 

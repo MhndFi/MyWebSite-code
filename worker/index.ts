@@ -127,9 +127,13 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // Public read — must NOT be behind Access so unauthenticated visitors can load the avatar.
-    if (path === '/api/avatar' && (request.method === 'GET' || request.method === 'HEAD')) {
+    // Public read — served outside /api/* so Cloudflare Access doesn't intercept it.
+    if (path === '/avatar' && (request.method === 'GET' || request.method === 'HEAD')) {
       return handleGetAvatar(env);
+    }
+    // Backwards-compat: redirect the old /api/avatar GET (when not behind Access) to /avatar.
+    if (path === '/api/avatar' && (request.method === 'GET' || request.method === 'HEAD')) {
+      return Response.redirect(new URL('/avatar', url), 308);
     }
 
     // Admin endpoints — Cloudflare Access protects /api/admin/* and injects the JWT.
